@@ -1,15 +1,6 @@
 videoscale_sources = [
   'gstvideoscale.c',
-  'vs_image.c',
-  'vs_scanline.c',
-  'vs_4tap.c',
-  'vs_fill_borders.c',
-  'vs_lanczos.c'
 ]
-
-configure_file(input : 'gstvideoscaleorc-dist.h',
-  output : 'gstvideoscaleorc.h',
-  configuration : configuration_data())
 
 gstvideoscale = library('gstvideoscale',
   videoscale_sources,
