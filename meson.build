@@ -16,6 +16,8 @@ else
   gst_version_nano = 0
 endif
 
+gst_req = '>= @0@.@1@.0'.format(gst_version_major, gst_version_minor)
+
 api_version = '1.0'
 soversion = 0
 # maintaining compatibility with the previous libtool versioning
@@ -117,6 +119,8 @@ endif
 
 giounix_dep = dependency('gio-unix-2.0', version : '>=2.24')
 glib_dep = dependency('glib-2.0')
+gobject_dep = dependency('gobject-2.0')
+gio_dep = dependency('gio-2.0')
 
 core_conf.set('HAVE_GIO_UNIX_2_0', giounix_dep.found())
 core_conf.set('HAVE_OGG', ogg_dep.found())
@@ -151,9 +155,11 @@ core_inc = include_directories('gst-libs', '.')
 
 # To use the subproject make subprojects directory
 # and put gstreamer meson git there (symlinking is fine)
-gst_dep = dependency('gstreamer-1.0')
-gst_base_dep = dependency('gstreamer-base-1.0')
-gst_net_dep = dependency('gstreamer-net-1.0')
+gst_dep = dependency('gstreamer-1.0', version : gst_req)
+gst_base_dep = dependency('gstreamer-base-1.0', version : gst_req)
+gst_net_dep = dependency('gstreamer-net-1.0', version : gst_req)
+gst_check_dep = dependency('gstreamer-check-1.0', version : gst_req)
+gst_controller_dep = dependency('gstreamer-controller-1.0', version : gst_req)
 #gst_proj = subproject('gstreamer')
 #gst_dep = gst_proj.get_variable('gst_dep')
 
@@ -162,3 +168,4 @@ subdir('gst')
 subdir('ext')
 subdir('sys')
 subdir('tools')
+subdir('tests')
