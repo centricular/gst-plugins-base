@@ -1,28 +1,36 @@
 audio_src= [
   'audio.c',
-  'audio-format.c',
+  'audio-channel-mixer.c',
   'audio-channels.c',
+  'audio-converter.c',
+  'audio-format.c',
   'audio-info.c',
-  'gstaudioringbuffer.c',
-  'gstaudioclock.c',
-  'gstaudiocdsrc.c',
-  'gstaudiodecoder.c',
-  'gstaudioencoder.c',
+  'audio-quantize.c',
   'gstaudiobasesink.c',
   'gstaudiobasesrc.c',
+  'gstaudiocdsrc.c',
+  'gstaudioclock.c',
+  'gstaudiodecoder.c',
+  'gstaudioencoder.c',
   'gstaudiofilter.c',
+  'gstaudioiec61937.c',
   'gstaudiometa.c',
+  'gstaudioringbuffer.c',
   'gstaudiosink.c',
   'gstaudiosrc.c',
+  'gstaudioutilsprivate.c',
   'streamvolume.c',
-  'gstaudioiec61937.c',
 ]
 
+# FIXME: check headers
 audio_headers = [
+  'audio-channel-mixer.h',
   'audio-channels.h',
+  'audio-converter.h',
   'audio-format.h',
   'audio.h',
   'audio-info.h',
+  'audio-quantize.h',
   'gstaudiobasesink.h',
   'gstaudiobasesrc.h',
   'gstaudiocdsrc.h',
@@ -40,9 +48,13 @@ audio_headers = [
 ]
 
 audio_mkenum_headers = [
+  'audio.h',
   'audio-format.h',
   'audio-channels.h',
+  'audio-channel-mixer.h',
+  'audio-converter.h',
   'audio-info.h',
+  'audio-quantize.h',
   'gstaudioringbuffer.h',
 ]
 
@@ -57,6 +69,7 @@ gstaudio_c = custom_target('gstaudioenum_c',
   input : audio_mkenum_headers,
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
+# FIXME: use orc to generate these if available!
 cdata = configuration_data()
 configure_file(input : 'gstaudiopack-dist.h',
   output : 'gstaudiopack.h',

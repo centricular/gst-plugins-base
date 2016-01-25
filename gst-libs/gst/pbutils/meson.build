@@ -12,10 +12,10 @@ pbutils_sources = [
   ]
 
 pbconf = configuration_data()
-pbconf.set('PACKAGE_VERSION_MAJOR', version_major)
-pbconf.set('PACKAGE_VERSION_MINOR', version_minor)
-pbconf.set('PACKAGE_VERSION_MICRO', version_micro)
-pbconf.set('PACKAGE_VERSION_NANO', version_nano)
+pbconf.set('PACKAGE_VERSION_MAJOR', gst_version_major)
+pbconf.set('PACKAGE_VERSION_MINOR', gst_version_minor)
+pbconf.set('PACKAGE_VERSION_MICRO', gst_version_micro)
+pbconf.set('PACKAGE_VERSION_NANO', gst_version_nano)
 configure_file(input : 'gstpluginsbaseversion.h.in',
   output: 'gstpluginsbaseversion.h',
   configuration: pbconf)
@@ -39,7 +39,7 @@ pbutils = library('gstpbutils',
   pbutils_sources, gstpbutils_c, gstpbutils_h,
   c_args : core_args,
   include_directories : core_inc,
-  dependencies : [gst_dep, glib_dep]
+  dependencies : [gst_dep, glib_dep, video_dep, audio_dep] # FIXME: tag_dep?
 )
 
 pbutils_dep = declare_dependency(link_with : pbutils,
