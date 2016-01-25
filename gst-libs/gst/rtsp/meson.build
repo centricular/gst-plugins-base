@@ -11,7 +11,6 @@ rtsp_sources = [
 rtsp_headers = [
   'gstrtspconnection.h',
   'gstrtspdefs.h',
-  'gstrtsp-enumtypes.h',
   'gstrtspextension.h',
   'gstrtsp.h',
   'gstrtspmessage.h',
@@ -47,3 +46,4 @@ gst_rtsp = library('gstrtsp',
   install : true,
   dependencies : [gst_dep, glib_dep],
 )
+rtsp_dep = declare_dependency(link_with : gst_rtsp, sources : [ gstrtsp_h ])
