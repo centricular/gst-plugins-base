@@ -14,8 +14,35 @@ tag_sources = [
   'xmpwriter.c',
 ]
 
+tag_headers = [
+  'gsttagdemux.h',
+  'gsttagmux.h',
+  'tag.h',
+  'xmpwriter.h',
+]
+install_headers(tag_headers, subdir : 'gstreamer-1.0/gst/tag/')
+
 gsttag = library('gsttag',
   tag_sources,
   c_args : core_args,
   include_directories: core_inc,
-  dependencies : [gst_dep, glib_dep])
+  version : libversion,
+  soversion : soversion,
+  install : true,
+  dependencies : [gst_base_dep, gst_dep, glib_dep])
+
+# FIXME: iso-codes stuff
+# little program that reads iso_639.xml and outputs tables for us as fallback
+# for when iso-codes are not available (and so we don't have to read the xml
+# just to map codes)
+#executable('mklangtables', 'mklangtables.c',
+#  dependencies : gst_dep,
+#  install : false,
+#)
+executable('mklicensestables', 'mklicensestables.c',
+  include_directories : core_inc,
+  c_args : core_args,
+  link_with : gsttag,
+  dependencies : gst_dep,
+  install : false,
+)

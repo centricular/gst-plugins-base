@@ -31,6 +31,38 @@ video_sources = [
   'videooverlay.c',
 ]
 
+video_headers = [
+  'colorbalance.h',
+  'colorbalancechannel.h',
+  'navigation.h',
+  'video.h',
+  'video-event.h',
+  'video-format.h',
+  'video-chroma.h',
+  'video-color.h',
+  'video-converter.h',
+  'video-dither.h',
+  'video-info.h',
+  'video-frame.h',
+  'video-scaler.h',
+  'video-tile.h',
+  'gstvideosink.h',
+  'gstvideofilter.h',
+  'gstvideometa.h',
+  'gstvideoaffinetransformationmeta.h',
+  'gstvideopool.h',
+  'videoorientation.h',
+  'videooverlay.h',
+  'gstvideodecoder.h',
+  'gstvideoencoder.h',
+  'gstvideoutils.h',
+  'video-resampler.h',
+  'video-blend.h',
+  'video-overlay-composition.h',
+  'video-multiview.h',
+]
+install_headers(video_headers, subdir : 'gstreamer-1.0/gst/video/')
+
 video_mkenum_headers = [
   'video.h',
   'video-format.h',
@@ -59,6 +91,8 @@ mkenums = find_program('video_mkenum.py')
 gstvideo_h = custom_target('gstvideoenum_h',
   output : 'video-enumtypes.h',
   input : video_mkenum_headers,
+  install : true,
+  install_dir : 'include/gstreamer-1.0/gst/video/',
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 gstvideo_c = custom_target('gstvideoenum_c',
@@ -71,6 +105,9 @@ gstvideo = library('gstvideo',
   video_sources, gstvideo_h, gstvideo_c, video_orc_c,
   c_args : core_args,
   include_directories : core_inc,
+  version : libversion,
+  soversion : soversion,
+  install : true,
   dependencies : [gst_dep, glib_dep],
 )
 
