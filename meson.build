@@ -16,6 +16,7 @@ else
   gst_version_nano = 0
 endif
 
+glib_req = '>= 2.40.0'
 gst_req = '>= @0@.@1@.0'.format(gst_version_major, gst_version_minor)
 
 api_version = '1.0'
@@ -98,10 +99,10 @@ cdparanoia_dep = dependency('cdparanoia-3', version : '>=10.2', required : false
 if not cdparanoia_dep.found()
   if cc.has_function('cdda_open', prefix : '#include <cdda/cdda_interface.h>')
     core_conf.set('CDPARANOIA_HEADERS_IN_DIR', true)
-    cdparanoia_dep = find_library('cdda_paranoia')
+    cdparanoia_dep = find_library('cdda_paranoia', required : false)
   elif cc.has_function('cdda_open', prefix : '#include <cdda_interface.h>')
     core_conf.set('CDPARANOIA_HEADERS_IN_DIR', false)
-    cdparanoia_dep = find_library('cdda_paranoia')
+    cdparanoia_dep = find_library('cdda_paranoia', required : false)
   endif
 endif
 ogg_dep = dependency('ogg', version : '>=1.0', required : false)
@@ -117,10 +118,10 @@ if vorbis_dep.found() or vorbisidec_dep.found()
   endif
 endif
 
-giounix_dep = dependency('gio-unix-2.0', version : '>=2.24')
-glib_dep = dependency('glib-2.0')
-gobject_dep = dependency('gobject-2.0')
-gio_dep = dependency('gio-2.0')
+giounix_dep = dependency('gio-unix-2.0', version : glib_req)
+glib_dep = dependency('glib-2.0', version : glib_req)
+gobject_dep = dependency('gobject-2.0', version : glib_req)
+gio_dep = dependency('gio-2.0', version : glib_req)
 
 core_conf.set('HAVE_GIO_UNIX_2_0', giounix_dep.found())
 core_conf.set('HAVE_OGG', ogg_dep.found())
