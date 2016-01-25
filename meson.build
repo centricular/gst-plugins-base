@@ -84,8 +84,6 @@ core_conf.set('GST_INSTALL_PLUGINS_HELPER', '"/FIXME"')
 core_conf.set('GST_DATADIR', '"/FIXME"')
 core_conf.set('GST_LICENSE', '"FIXME"')
 core_conf.set('DISABLE_ORC', 1)
-core_conf.set('GIO_MODULE_DIR', '"FIXME"')
-core_conf.set('GIO_LIBDIR', '"FIXME"')
 core_conf.set('DEFAULT_VIDEOSINK', '"FIXME"')
 core_conf.set('DEFAULT_AUDIOSINK', '"FIXME"')
 
@@ -108,6 +106,19 @@ glib_dep = dependency('glib-2.0')
 core_conf.set('HAVE_GIO_UNIX_2_0', giounix_dep.found())
 core_conf.set('HAVE_OGG', ogg_dep.found())
 core_conf.set('HAVE_THEORA', theora_dep.found())
+
+runcmd = run_command('pkg-config', '--variable=giomoduledir', 'gio-2.0')
+if runcmd.returncode() == 0
+  core_conf.set('GIO_MODULE_DIR', '"@0@"'.format(runcmd.stdout().strip()))
+endif
+runcmd = run_command('pkg-config', '--variable=libdir', 'gio-2.0')
+if runcmd.returncode() == 0
+  core_conf.set('GIO_LIBDIR', '"@0@"'.format(runcmd.stdout().strip()))
+endif
+runcmd = run_command('pkg-config', '--variable=prefix', 'gio-2.0')
+if runcmd.returncode() == 0
+  core_conf.set('GIO_PREFIX', '"@0@"'.format(runcmd.stdout().strip()))
+endif
 
 configure_file(input : 'config.h.meson',
   output : 'config.h',
