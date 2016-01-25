@@ -27,7 +27,7 @@ gstrtsp_h = custom_target('gstrtspenum_h',
   output : 'gstrtsp-enumtypes.h',
   input : 'gstrtspdefs.h',
   install : true,
-  install_dir : 'include/gstreamer-1.0/rtsp/',
+  install_dir : 'include/gstreamer-1.0/gst/rtsp/',
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 gstrtsp_c = custom_target('gstrtspenum_c',
