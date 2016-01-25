@@ -1,5 +1,5 @@
 subdir('alsa')
-#subdir('cdparanoia')
+subdir('cdparanoia')
 subdir('libvisual')
 subdir('ogg')
 subdir('pango')
