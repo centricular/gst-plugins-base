@@ -2,6 +2,7 @@ playback_sources = [
   'gstdecodebin2.c',
   'gsturidecodebin.c',
   'gstplayback.c',
+  'gstplaybackutils.c',
   'gstplaybin2.c',
   'gstplaysink.c',
   'gstplay-enum.c',
@@ -16,5 +17,6 @@ gstplayback = library('gstplayback',
   playback_sources,
   include_directories : core_inc,
   c_args : core_args + ['-DCOLORSPACE="videoconvert"'],
-  dependencies : [audio_dep, video_dep, gst_dep, glib_dep]
+  link_with : [ gsttag ],
+  dependencies : [audio_dep, video_dep, pbutils_dep, gst_dep, glib_dep]
 )

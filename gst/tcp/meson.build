@@ -1,11 +1,12 @@
 tcp_sources = [
-  'gsttcpplugin.c',
-  'gsttcpclientsrc.c',
-  'gsttcpclientsink.c',
   'gstmultihandlesink.c',
   'gstmultisocketsink.c',
+  'gstsocketsrc.c',
+  'gsttcpclientsrc.c',
+  'gsttcpclientsink.c',
   'gsttcpserversrc.c',
-  'gsttcpserversink.c'
+  'gsttcpserversink.c',
+  'gsttcpplugin.c',
 ]
 
 if core_conf.has('HAVE_SYS_SOCKET_H')
@@ -16,5 +17,5 @@ gsttcp = library('gsttcp',
   tcp_sources,
   include_directories : core_inc,
   c_args : core_args,
-  dependencies : [giounix_dep, gst_dep, glib_dep]
+  dependencies : [ giounix_dep, gst_base_dep, gst_net_dep, gst_dep, glib_dep ]
 )
