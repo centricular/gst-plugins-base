@@ -108,7 +108,7 @@ gstvideo = library('gstvideo',
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [gst_dep, glib_dep],
+  dependencies : [ gst_base_dep, gst_dep, glib_dep ],
 )
 
 video_dep = declare_dependency(link_with : gstvideo,

@@ -88,6 +88,7 @@ gstaudio = library('gstaudio-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
+  link_with : [ gsttag ],
   dependencies : [gst_dep, gst_base_dep, glib_dep])
 
 audio_dep = declare_dependency(link_with : gstaudio,
