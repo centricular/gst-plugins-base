@@ -20,5 +20,7 @@ if theoradec_dep.found() or theoraenc_dep.found()
     c_args : core_args,
     link_with: [ gsttag ],
     dependencies : theora_deps + [ video_dep, gst_dep, glib_dep ],
+    install : true,
+    install_dir : '@0@/gstreamer-1.0'.format(get_option('libdir')),
   )
 endif
