@@ -136,5 +136,6 @@ gst_net_dep = dependency('gstreamer-net-1.0')
 
 subdir('gst-libs')
 subdir('gst')
+subdir('ext')
 subdir('sys')
 subdir('tools')

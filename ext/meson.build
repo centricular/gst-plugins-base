@@ -1,0 +1,7 @@
+subdir('alsa')
+#subdir('cdparanoia')
+#subdir('libvisual')
+#subdir('ogg')
+#subdir('pango')
+#subdir('theora')
+#subdir('vorbis')
