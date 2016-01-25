@@ -115,9 +115,8 @@ foreach t : base_tests
     exe = executable(test_name, '@0@.c'.format(test_name),
       include_directories : [ core_inc ],
       c_args : ['-DHAVE_CONFIG_H=1' ] + test_defines,
-      link_with : [ gsttag, gstallocators, gstapp, gstfft,
-                    gstriff, gst_rtp, gst_rtsp, gstsdp ],
-      dependencies : [ audio_dep, video_dep, pbutils_dep,
+      link_with : [ gsttag, gstallocators, gstapp, gstfft, gstriff, gstsdp ],
+      dependencies : [ audio_dep, video_dep, pbutils_dep, rtp_dep, rtsp_dep,
                        gst_dep, gst_base_dep, gst_net_dep, gst_check_dep,
                        gio_dep, gobject_dep, glib_dep, libm ] + extra_deps,
     )
