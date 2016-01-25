@@ -14,9 +14,22 @@ fft_sources = [
   'kiss_fftr_f64.c'
 ]
 
+fft_headers = [
+  'fft.h',
+  'gstfftf32.h',
+  'gstfftf64.h',
+  'gstfft.h',
+  'gstffts16.h',
+  'gstffts32.h',
+]
+install_headers(fft_headers, subdir : 'gstreamer-1.0/gst/fft/')
+
 gstfft = library('gstfft',
   fft_sources,
   c_args : core_args,
   include_directories : core_inc,
+  version : libversion,
+  soversion : soversion,
+  install : true,
   dependencies : [gst_dep, glib_dep],
   )

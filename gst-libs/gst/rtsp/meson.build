@@ -8,11 +8,27 @@ rtsp_sources = [
   'gstrtsprange.c'
   ]
 
+rtsp_headers = [
+  'gstrtspconnection.h',
+  'gstrtspdefs.h',
+  'gstrtsp-enumtypes.h',
+  'gstrtspextension.h',
+  'gstrtsp.h',
+  'gstrtspmessage.h',
+  'gstrtsprange.h',
+  'gstrtsptransport.h',
+  'gstrtspurl.h',
+  'rtsp.h',
+]
+install_headers(rtsp_headers, subdir : 'gstreamer-1.0/gst/rtsp/')
+
 mkenums = find_program('rtsp_mkenum.py')
 
 gstrtsp_h = custom_target('gstrtspenum_h',
   output : 'gstrtsp-enumtypes.h',
   input : 'gstrtspdefs.h',
+  install : true,
+  install_dir : 'include/gstreamer-1.0/rtsp/',
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 gstrtsp_c = custom_target('gstrtspenum_c',
@@ -26,5 +42,8 @@ gstsdp = library('gstrtsp',
   gstrtsp_h, gstrtsp_c,
   include_directories : core_inc,
   c_args : core_args,
+  version : libversion,
+  soversion : soversion,
+  install : true,
   dependencies : [gst_dep, glib_dep],
 )

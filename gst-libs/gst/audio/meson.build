@@ -40,12 +40,12 @@ audio_headers = [
   'gstaudiofilter.h',
   'gstaudioiec61937.h',
   'gstaudiometa.h',
-  'gstaudiopack-dist.h',
   'gstaudioringbuffer.h',
   'gstaudiosink.h',
   'gstaudiosrc.h',
   'streamvolume.h',
 ]
+install_headers(audio_headers, subdir : 'gstreamer-1.0/gst/audio/')
 
 audio_mkenum_headers = [
   'audio.h',
@@ -62,6 +62,8 @@ mkenums = find_program('audio_mkenum.py')
 gstaudio_h = custom_target('gstaudioenum_h',
   output : 'audio-enumtypes.h',
   input : audio_mkenum_headers,
+  install : true,
+  install_dir : 'include/gstreamer-1.0/gst/audio/',
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 gstaudio_c = custom_target('gstaudioenum_c',
@@ -83,6 +85,9 @@ gstaudio = library('gstaudio-@0@'.format(api_version),
   audio_src, gstaudio_h, gstaudio_c, audio_orc_c,
   include_directories : core_inc,
   c_args: core_args,
+  version : libversion,
+  soversion : soversion,
+  install : true,
   dependencies : [gst_dep, gst_base_dep, glib_dep])
 
 audio_dep = declare_dependency(link_with : gstaudio,
