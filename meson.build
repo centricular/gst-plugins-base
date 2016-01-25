@@ -96,7 +96,7 @@ vorbisidec_dep = dependency('vorbisidec', required : false)
 ogg_dep = dependency('ogg', version : '>=1.0', required : false)
 pango_dep = dependency('pango', version : '>=1.22.0', required : false)
 pangocairo_dep = dependency('pangocairo', version : '>=1.22.0', required : false)
-theora_dep = dependency('theora', version : '>=1.1')
+theoradec_dep = dependency('theoradec', version : '>=1.1')
 theoraenc_dep = dependency('theoraenc', version : '>=1.1')
 vorbis_dep = dependency('vorbis', version : '>=1.0')
 giounix_dep = dependency('gio-unix-2.0', version : '>=2.24')
@@ -105,7 +105,7 @@ glib_dep = dependency('glib-2.0')
 
 core_conf.set('HAVE_GIO_UNIX_2_0', giounix_dep.found())
 core_conf.set('HAVE_OGG', ogg_dep.found())
-core_conf.set('HAVE_THEORA', theora_dep.found())
+core_conf.set('HAVE_THEORA', theoradec_dep.found() and theoraenc_dep.found())
 
 runcmd = run_command('pkg-config', '--variable=giomoduledir', 'gio-2.0')
 if runcmd.returncode() == 0
