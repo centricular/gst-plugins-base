@@ -21,6 +21,5 @@ executable('gst-play-@0@'.format(api_version),
   link_with : gsttag,
   include_directories : core_inc,
   c_args : core_args,
-  link_args : ['-lm'], # FIXME, device a better way to do lm.
-  dependencies : tool_deps,
+  dependencies : [ tool_deps, libm ],
 )
