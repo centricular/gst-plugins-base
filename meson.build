@@ -99,7 +99,6 @@ theoradec_dep = dependency('theoradec', version : '>=1.1')
 theoraenc_dep = dependency('theoraenc', version : '>=1.1')
 vorbis_dep = dependency('vorbis', version : '>=1.0')
 giounix_dep = dependency('gio-unix-2.0', version : '>=2.24')
-ft2_dep = dependency('freetype2', version : '>=2.0.9', required : false)
 glib_dep = dependency('glib-2.0')
 
 core_conf.set('HAVE_GIO_UNIX_2_0', giounix_dep.found())
@@ -117,6 +116,14 @@ endif
 runcmd = run_command('pkg-config', '--variable=prefix', 'gio-2.0')
 if runcmd.returncode() == 0
   core_conf.set('GIO_PREFIX', '"@0@"'.format(runcmd.stdout().strip()))
+endif
+
+libvisual_dep = dependency('libvisual-0.4', version : '>= 0.4.0', required : false)
+if libvisual_dep.found()
+  runcmd = run_command('pkg-config', '--variable=pluginsbasedir', 'libvisual-0.4')
+  if runcmd.returncode() == 0
+    core_conf.set('LIBVISUAL_PLUGINSBASEDIR', '"@0@"'.format(runcmd.stdout().strip()))
+  endif
 endif
 
 configure_file(input : 'config.h.meson',
