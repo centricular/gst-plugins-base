@@ -92,7 +92,7 @@ else
 endif
 
 test_env = [
-  'GST_SYSTEM_PLUGIN_PATH_1_0=',
+  'GST_PLUGIN_SYSTEM_PATH_1_0=',
   'GST_PLUGIN_PATH_1_0=' + meson.build_root() + '/gst:' + meson.build_root() + '/ext:' + meson.build_root() + '/sys:' + core_plugins_dir,
   'GST_PLUGIN_LOADING_WHITELIST=gstreamer:gst-plugins-base@' + meson.build_root(),
   'GST_TAG_LICENSE_TRANSLATIONS_DICT=' + meson.source_root() + '/gst-libs/gst/tag/license-translations.dict',
