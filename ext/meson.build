@@ -1,6 +1,6 @@
 subdir('alsa')
 #subdir('cdparanoia')
-#subdir('libvisual')
+subdir('libvisual')
 subdir('ogg')
 subdir('pango')
 subdir('theora')
