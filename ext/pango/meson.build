@@ -12,5 +12,7 @@ if pango_dep.found()
     include_directories : core_inc,
     c_args : core_args,
     dependencies : [pango_dep, video_dep, gst_dep, glib_dep],
+    install : true,
+    install_dir : '@0@/gstreamer-1.0'.format(get_option('libdir')),
   )
 endif

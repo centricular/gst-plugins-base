@@ -14,5 +14,7 @@ if alsa_dep.found()
     c_args : core_args,
     link_with: [ gsttag ],
     dependencies : [alsa_dep, audio_dep, gst_dep, glib_dep],
+    install : true,
+    install_dir : '@0@/gstreamer-1.0'.format(get_option('libdir')),
   )
 endif

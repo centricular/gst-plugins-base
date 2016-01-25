@@ -4,4 +4,6 @@ adder = library('gstapp',
   c_args: core_args,
   link_with : gstapp,
   dependencies : [ gst_base_dep, gst_dep, glib_dep ],
+  install : true,
+  install_dir : '@0@/gstreamer-1.0'.format(get_option('libdir')),
 )

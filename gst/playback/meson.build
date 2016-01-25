@@ -18,5 +18,7 @@ gstplayback = library('gstplayback',
   include_directories : core_inc,
   c_args : core_args + ['-DCOLORSPACE="videoconvert"'],
   link_with : [ gsttag ],
-  dependencies : [audio_dep, video_dep, pbutils_dep, gst_dep, glib_dep]
+  dependencies : [audio_dep, video_dep, pbutils_dep, gst_dep, glib_dep],
+  install : true,
+  install_dir : '@0@/gstreamer-1.0'.format(get_option('libdir')),
 )

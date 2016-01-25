@@ -17,5 +17,7 @@ if ogg_dep.found()
     c_args : core_args,
     link_with: [ gsttag, gstriff ],
     dependencies : [ ogg_dep, audio_dep, pbutils_dep, gst_dep, glib_dep ],
+    install : true,
+    install_dir : '@0@/gstreamer-1.0'.format(get_option('libdir')),
   )
 endif
