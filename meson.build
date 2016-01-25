@@ -92,12 +92,19 @@ core_args = ['-DHAVE_CONFIG_H']
 libm = find_library('m', required : false)
 alsa_dep = dependency('alsa', version : '>=0.9.1')
 cdpara_dep = dependency('cdparanoia-3', version : '>=10.2', required : false)
-vorbisidec_dep = dependency('vorbisidec', required : false)
 ogg_dep = dependency('ogg', version : '>=1.0', required : false)
 pango_dep = dependency('pangocairo', version : '>=1.22.0', required : false)
 theoradec_dep = dependency('theoradec', version : '>=1.1')
 theoraenc_dep = dependency('theoraenc', version : '>=1.1')
 vorbis_dep = dependency('vorbis', version : '>=1.0')
+vorbisenc_dep = dependency('vorbisenc', version : '>=1.0')
+vorbisidec_dep = dependency('vorbisidec', required : false)
+if vorbis_dep.found()
+  if cc.has_function('vorbis_synthesis_restart', prefix : '#include <vorbis/codec.h>')
+    core_conf.set('HAVE_VORBIS_SYNTHESIS_RESTART', true)
+  endif
+endif
+
 giounix_dep = dependency('gio-unix-2.0', version : '>=2.24')
 glib_dep = dependency('glib-2.0')
 
