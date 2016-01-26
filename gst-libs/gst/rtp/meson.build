@@ -42,6 +42,6 @@ gst_rtp = library('gstrtp',
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [gst_dep, glib_dep]
+  dependencies : [audio_dep, gst_dep, glib_dep]
 )
 rtp_dep = declare_dependency(link_with : gst_rtp, sources : [ gstrtp_enum_h ])
