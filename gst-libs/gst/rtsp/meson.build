@@ -32,7 +32,7 @@ gstrtsp_h = custom_target('gstrtspenum_h',
 
 gstrtsp_c = custom_target('gstrtspenum_c',
   output : 'gstrtsp-enumtypes.c',
-  input : 'gstrtspdefs.h',
+  input : rtsp_headers,
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 

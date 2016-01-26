@@ -19,7 +19,7 @@ h_array = [
 ]
 
 c_array = ['--fhead',
-           "#include \"gstrtsp-enumtypes.h\"\n\n#include \"gstrtspdefs.h\"",
+           "#include \"gstrtsp-enumtypes.h\"\n\n#include \"rtsp.h\"",
            '--fprod',
            "\n/* enumerations from \"@filename@\" */",
            '--vhead',
