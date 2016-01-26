@@ -101,7 +101,7 @@ gstvideo_c = custom_target('gstvideoenum_c',
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 
-gstvideo = library('gstvideo',
+gstvideo = library('gstvideo-@0@'.format(api_version),
   video_sources, gstvideo_h, gstvideo_c, video_orc_c,
   c_args : core_args,
   include_directories : core_inc,

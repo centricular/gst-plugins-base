@@ -35,7 +35,7 @@ gstrtp_enum_c = custom_target('gstrtp_enum_c',
   input : rtp_headers,
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
-gst_rtp = library('gstrtp',
+gst_rtp = library('gstrtp-@0@'.format(api_version),
   rtp_sources,
   include_directories : core_inc,
   c_args : core_args,
