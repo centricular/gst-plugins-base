@@ -30,7 +30,8 @@ pbutils_headers = [
   'encoding-target.h',
   'install-plugins.h',
   'missing-plugins.h',
-  'gstdiscoverer.h'
+  'gstdiscoverer.h',
+  'gstaudiovisualizer.h',
 ]
 install_headers(pbutils_headers, subdir : 'gstreamer-1.0/gst/pbutils/')
 
