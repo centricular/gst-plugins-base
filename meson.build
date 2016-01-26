@@ -30,6 +30,8 @@ else
   libversion = '0.' + gst_version_minor + gst_version_micro + '.0'
 endif
 
+plugins_install_dir = '@0@/gstreamer-1.0'.format(get_option('libdir'))
+
 cc = meson.get_compiler('c')
 
 core_conf = configuration_data()
