@@ -22,7 +22,7 @@ tag_headers = [
 ]
 install_headers(tag_headers, subdir : 'gstreamer-1.0/gst/tag/')
 
-gsttag = library('gsttag',
+gsttag = library('gsttag-@0@'.format(api_version),
   tag_sources,
   c_args : core_args,
   include_directories: core_inc,

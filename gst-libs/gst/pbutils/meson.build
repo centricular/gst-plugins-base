@@ -52,7 +52,7 @@ gstpbutils_c = custom_target('gstpbutilsenum_c',
 
 
 
-pbutils = library('gstpbutils',
+pbutils = library('gstpbutils-@0@'.format(api_version),
   pbutils_sources, gstpbutils_c, gstpbutils_h,
   c_args : core_args,
   include_directories : core_inc,

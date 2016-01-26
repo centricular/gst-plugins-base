@@ -36,7 +36,7 @@ gstrtsp_c = custom_target('gstrtspenum_c',
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 
-gst_rtsp = library('gstrtsp',
+gst_rtsp = library('gstrtsp-@0@'.format(api_version),
   rtsp_sources,
   gstrtsp_h, gstrtsp_c,
   include_directories : core_inc,

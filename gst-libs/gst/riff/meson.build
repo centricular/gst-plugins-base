@@ -12,7 +12,7 @@ riff_headers = [
 ]
 install_headers(riff_headers, subdir : 'gstreamer-1.0/gst/riff/')
 
-gstriff = library('gstriff',
+gstriff = library('gstriff-@0@'.format(api_version),
   riff_sources,
   c_args : core_args,
   include_directories : core_inc,

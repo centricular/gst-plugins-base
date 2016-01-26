@@ -5,7 +5,7 @@ gst_allocators_headers = [
 ]
 install_headers(gst_allocators_headers, subdir : 'gstreamer-1.0/gst/allocators/')
 
-gstallocators = library('gstallocators',
+gstallocators = library('gstallocators-@0@'.format(api_version),
   [ 'gstdmabuf.c', 'gstfdmemory.c' ],
   c_args : core_args,
   include_directories : core_inc,
