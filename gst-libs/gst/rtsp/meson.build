@@ -25,7 +25,7 @@ mkenums = find_program('rtsp_mkenum.py')
 
 gstrtsp_h = custom_target('gstrtspenum_h',
   output : 'gstrtsp-enumtypes.h',
-  input : 'gstrtspdefs.h',
+  input : rtsp_headers,
   install : true,
   install_dir : 'include/gstreamer-1.0/gst/rtsp/',
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
