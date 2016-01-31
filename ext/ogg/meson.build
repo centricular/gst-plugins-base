@@ -13,8 +13,8 @@ ogg_sources = [
 if ogg_dep.found()
   gstogg = library('gstogg',
     ogg_sources,
-    include_directories : core_inc,
-    c_args : core_args,
+    include_directories : gst_plugins_base_incs,
+    c_args : gst_plugins_base_args,
     link_with: [ gsttag, gstriff ],
     dependencies : [ ogg_dep, audio_dep, pbutils_dep, gst_dep, glib_dep ],
     install : true,
