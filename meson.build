@@ -92,7 +92,7 @@ core_conf.set('DISABLE_ORC', 1)
 core_conf.set('DEFAULT_VIDEOSINK', '"FIXME"')
 core_conf.set('DEFAULT_AUDIOSINK', '"FIXME"')
 
-core_args = ['-DHAVE_CONFIG_H']
+gst_plugins_base_args = ['-DHAVE_CONFIG_H']
 
 libm = find_library('m', required : false)
 alsa_dep = dependency('alsa', version : '>=0.9.1', required : false)
@@ -154,7 +154,7 @@ configure_file(input : 'config.h.meson',
   output : 'config.h',
   configuration : core_conf)
 
-core_inc = include_directories('gst-libs', '.')
+gst_plugins_base_incs = include_directories('gst-libs', '.')
 
 # To use the subproject make subprojects directory
 # and put gstreamer meson git there (symlinking is fine)

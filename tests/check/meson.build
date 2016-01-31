@@ -113,7 +113,7 @@ foreach t : base_tests
   endif
   if not skip_test
     exe = executable(test_name, '@0@.c'.format(test_name),
-      include_directories : [ core_inc ],
+      include_directories : [ gst_plugins_base_incs ],
       c_args : ['-DHAVE_CONFIG_H=1' ] + test_defines,
       link_with : [ gsttag, gstallocators, gstapp, gstfft, gstriff, gstsdp ],
       dependencies : [ audio_dep, video_dep, pbutils_dep, rtp_dep, rtsp_dep,

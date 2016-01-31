@@ -14,8 +14,8 @@ install_headers(riff_headers, subdir : 'gstreamer-1.0/gst/riff/')
 
 gstriff = library('gstriff-@0@'.format(api_version),
   riff_sources,
-  c_args : core_args,
-  include_directories : core_inc,
+  c_args : gst_plugins_base_args,
+  include_directories : gst_plugins_base_incs,
   version : libversion,
   soversion : soversion,
   install : true,
