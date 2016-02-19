@@ -5,7 +5,7 @@
 # make special characters such as \n go through all
 # backends is a fool's errand.
 
-import sys, os, subprocess
+import sys, os, shutil, subprocess
 
 h_array = [
     '--fhead',
@@ -39,7 +39,8 @@ if ofilename.endswith('.h'):
 else:
     arg_array = c_array
 
-cmd_array = ['glib-mkenums'] + arg_array + headers
+cmd = [shutil.which('perl'), shutil.which('glib-mkenums')]
+cmd_array = cmd + arg_array + headers
 
 #print(cmd_array)
 
