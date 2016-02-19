@@ -35,6 +35,16 @@ gstrtsp_c = custom_target('gstrtspenum_c',
   input : rtsp_headers,
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
+# FIXME: This should use find_library once it's fixed on Windows
+if host_machine.system() == 'windows'
+  if cc.get_id() == 'msvc'
+    win32_libs = ['ws2_32.lib']
+  else
+    win32_libs = ['-lws2_32']
+  endif
+else
+  win32_libs = []
+endif
 
 gst_rtsp = library('gstrtsp-@0@'.format(api_version),
   rtsp_sources,
@@ -44,6 +54,7 @@ gst_rtsp = library('gstrtsp-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
+  link_args : win32_libs,
   dependencies : [ gst_dep, gio_dep ],
 )
 rtsp_dep = declare_dependency(link_with : gst_rtsp, sources : [ gstrtsp_h ])
