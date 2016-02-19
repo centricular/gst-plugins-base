@@ -120,7 +120,7 @@ if vorbis_dep.found() or vorbisidec_dep.found()
   endif
 endif
 
-giounix_dep = dependency('gio-unix-2.0', version : glib_req)
+giounix_dep = dependency('gio-unix-2.0', version : glib_req, required : false)
 glib_dep = dependency('glib-2.0', version : glib_req)
 gobject_dep = dependency('gobject-2.0', version : glib_req)
 gio_dep = dependency('gio-2.0', version : glib_req)
