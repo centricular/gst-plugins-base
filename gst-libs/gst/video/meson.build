@@ -109,6 +109,8 @@ gstvideo = library('gstvideo-@0@'.format(api_version),
   soversion : soversion,
   install : true,
   dependencies : [ gst_base_dep, gst_dep, glib_dep ],
+  # Only used with MSVC
+  module_defs_file: meson.source_root() + '/win32/common/libgstvideo.def',
 )
 
 video_dep = declare_dependency(link_with : gstvideo,

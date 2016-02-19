@@ -42,6 +42,8 @@ gst_rtp = library('gstrtp-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [audio_dep, gst_dep, glib_dep]
+  dependencies : [audio_dep, gst_dep, glib_dep],
+  # Only used with MSVC
+  module_defs_file: meson.source_root() + '/win32/common/libgstrtp.def',
 )
 rtp_dep = declare_dependency(link_with : gst_rtp, sources : [ gstrtp_enum_h ])
