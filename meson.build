@@ -95,7 +95,7 @@ core_conf.set('DEFAULT_AUDIOSINK', '"FIXME"')
 core_args = ['-DHAVE_CONFIG_H']
 
 libm = find_library('m', required : false)
-alsa_dep = dependency('alsa', version : '>=0.9.1')
+alsa_dep = dependency('alsa', version : '>=0.9.1', required : false)
 # cdparanoia upstream has a pkg-config file only in post-10.2 SVN so far, no release yet
 cdparanoia_dep = dependency('cdparanoia-3', version : '>=10.2', required : false)
 if not cdparanoia_dep.found()
@@ -109,10 +109,10 @@ if not cdparanoia_dep.found()
 endif
 ogg_dep = dependency('ogg', version : '>=1.0', required : false)
 pango_dep = dependency('pangocairo', version : '>=1.22.0', required : false)
-theoradec_dep = dependency('theoradec', version : '>=1.1')
-theoraenc_dep = dependency('theoraenc', version : '>=1.1')
-vorbis_dep = dependency('vorbis', version : '>=1.0')
-vorbisenc_dep = dependency('vorbisenc', version : '>=1.0')
+theoradec_dep = dependency('theoradec', version : '>=1.1', required : false)
+theoraenc_dep = dependency('theoraenc', version : '>=1.1', required : false)
+vorbis_dep = dependency('vorbis', version : '>=1.0', required : false)
+vorbisenc_dep = dependency('vorbisenc', version : '>=1.0', required : false)
 vorbisidec_dep = dependency('vorbisidec', required : false)
 if vorbis_dep.found() or vorbisidec_dep.found()
   if cc.has_function('vorbis_synthesis_restart', prefix : '#include <vorbis/codec.h>')
