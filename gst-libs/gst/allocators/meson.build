@@ -12,5 +12,7 @@ gstallocators = library('gstallocators-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [gst_dep, glib_dep]
+  dependencies : [gst_dep, glib_dep],
+  # Only used with MSVC
+  module_defs_file: meson.source_root() + '/win32/common/libgstallocators.def',
 )
