@@ -24,7 +24,7 @@ gstapp = library('gstapp-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [ gst_base_dep ],
+  dependencies : [ glib_dep, gst_dep, gst_base_dep ],
   # Only used with MSVC
   module_defs_file: meson.source_root() + '/win32/common/libgstapp.def',
 )
