@@ -120,6 +120,17 @@ if vorbis_dep.found() or vorbisidec_dep.found()
   endif
 endif
 
+# X11, XV, XShm
+x11_dep = dependency('x11', required : false)
+xvideo_dep = dependency('xv', required : false)
+core_conf.set('HAVE_X', x11_dep.found())
+core_conf.set('HAVE_XVIDEO', x11_dep.found() and xvideo_dep.found())
+if x11_dep.found()
+  # FIXME: Need to check for XShmAttach inside libXext
+  xshm_dep = dependency('xext', required : false)
+  core_conf.set('HAVE_XSHM', xshm_dep.found())
+endif
+
 giounix_dep = dependency('gio-unix-2.0', version : glib_req, required : false)
 glib_dep = dependency('glib-2.0', version : glib_req)
 gobject_dep = dependency('gobject-2.0', version : glib_req)
