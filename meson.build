@@ -169,13 +169,20 @@ gst_plugins_base_incs = include_directories('gst-libs', '.')
 
 # To use the subproject make subprojects directory
 # and put gstreamer meson git there (symlinking is fine)
-gst_dep = dependency('gstreamer-1.0', version : gst_req)
-gst_base_dep = dependency('gstreamer-base-1.0', version : gst_req)
-gst_net_dep = dependency('gstreamer-net-1.0', version : gst_req)
-gst_check_dep = dependency('gstreamer-check-1.0', version : gst_req)
-gst_controller_dep = dependency('gstreamer-controller-1.0', version : gst_req)
-#gst_proj = subproject('gstreamer')
-#gst_dep = gst_proj.get_variable('gst_dep')
+gst_dep = dependency('gstreamer-1.0', version : gst_req, required : false)
+if not gst_dep.found()
+  gst_proj = subproject('gstreamer')
+  gst_dep = gst_proj.get_variable('gst_dep')
+  gst_base_dep = gst_proj.get_variable('gst_base_dep')
+  gst_net_dep = gst_proj.get_variable('gst_net_dep')
+  gst_check_dep = gst_proj.get_variable('gst_check_dep')
+  gst_controller_dep = gst_proj.get_variable('gst_controller_dep')
+else
+  gst_base_dep = dependency('gstreamer-base-1.0', version : gst_req)
+  gst_net_dep = dependency('gstreamer-net-1.0', version : gst_req)
+  gst_check_dep = dependency('gstreamer-check-1.0', version : gst_req)
+  gst_controller_dep = dependency('gstreamer-controller-1.0', version : gst_req)
+endif
 
 subdir('gst-libs')
 subdir('gst')
