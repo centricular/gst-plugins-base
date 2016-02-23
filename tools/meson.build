@@ -1,4 +1,4 @@
-tool_deps = [pbutils_dep, audio_dep, video_dep, gst_dep]
+tool_deps = [pbutils_dep, audio_dep, video_dep, gst_dep, glib_dep, gobject_dep]
 
 executable('gst-device-monitor-@0@'.format(api_version),
   'gst-device-monitor.c',

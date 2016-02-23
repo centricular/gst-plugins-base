@@ -46,6 +46,6 @@ executable('mklicensestables', 'mklicensestables.c',
   include_directories : gst_plugins_base_incs,
   c_args : gst_plugins_base_args,
   link_with : gsttag,
-  dependencies : gst_dep,
+  dependencies : [gst_dep, glib_dep],
   install : false,
 )
