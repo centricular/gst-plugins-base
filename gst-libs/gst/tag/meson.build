@@ -34,6 +34,8 @@ gsttag = library('gsttag-@0@'.format(api_version),
   module_defs_file: meson.source_root() + '/win32/common/libgsttag.def',
 )
 
+tag_dep = declare_dependency(link_with: gsttag)
+
 # FIXME: iso-codes stuff
 # little program that reads iso_639.xml and outputs tables for us as fallback
 # for when iso-codes are not available (and so we don't have to read the xml

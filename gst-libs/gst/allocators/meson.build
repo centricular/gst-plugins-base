@@ -16,3 +16,5 @@ gstallocators = library('gstallocators-@0@'.format(api_version),
   # Only used with MSVC
   module_defs_file: meson.source_root() + '/win32/common/libgstallocators.def',
 )
+
+allocators_dep = declare_dependency(link_with: gstallocators)
