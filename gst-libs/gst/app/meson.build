@@ -28,3 +28,5 @@ gstapp = library('gstapp-@0@'.format(api_version),
   # Only used with MSVC
   module_defs_file: meson.source_root() + '/win32/common/libgstapp.def',
 )
+
+app_dep = declare_dependency(link_with: gstapp)

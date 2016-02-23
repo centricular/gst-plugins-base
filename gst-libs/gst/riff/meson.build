@@ -23,3 +23,5 @@ gstriff = library('gstriff-@0@'.format(api_version),
   # Only used with MSVC
   module_defs_file: meson.source_root() + '/win32/common/libgstriff.def',
 )
+
+riff_dep = declare_dependency(link_with: gstriff)
