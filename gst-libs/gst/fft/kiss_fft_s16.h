@@ -26,7 +26,7 @@ extern "C" {
 
 #define KISS_FFT_S16_MALLOC g_malloc
 
-#if HAVE_STDINT_h
+#if HAVE_STDINT_H
 #include<stdint.h>
 #else
 #include "stdint.h"
