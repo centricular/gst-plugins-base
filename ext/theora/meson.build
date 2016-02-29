@@ -19,7 +19,7 @@ if theoradec_dep.found() or theoraenc_dep.found()
     include_directories : gst_plugins_base_incs,
     c_args : gst_plugins_base_args,
     link_with: [ gsttag ],
-    dependencies : theora_deps + [ video_dep, gst_dep, glib_dep ],
+    dependencies : theora_deps + [video_dep, gst_dep, gst_base_dep, glib_dep],
     install : true,
     install_dir : plugins_install_dir,
   )

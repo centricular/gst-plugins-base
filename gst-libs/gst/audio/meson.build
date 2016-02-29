@@ -89,8 +89,8 @@ gstaudio = library('gstaudio-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  link_with : [ gsttag ],
-  dependencies : [gst_dep, gst_base_dep, glib_dep],
+  link_with : [gsttag],
+  dependencies : [gst_dep, gst_base_dep, glib_dep, libm],
   # Only used with MSVC
   module_defs_file: meson.source_root() + '/win32/common/libgstaudio.def',
 )

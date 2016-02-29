@@ -10,7 +10,7 @@ gstvideotestsrc = library('gstvideotestsrc',
   'gstvideotestsrc.c', 'videotestsrc.c', videotestsrc_orc_c, videotestsrc_orc_h,
   include_directories : gst_plugins_base_incs,
   c_args : gst_plugins_base_args,
-  dependencies : [video_dep, gst_dep, gst_base_dep, glib_dep],
+  dependencies : [video_dep, gst_dep, gst_base_dep, glib_dep, libm],
   install : true,
   install_dir : plugins_install_dir,
 )
