@@ -56,7 +56,7 @@ gst_rtsp = library('gstrtsp-@0@'.format(api_version),
   soversion : soversion,
   install : true,
   link_args : win32_libs,
-  dependencies : [ gst_dep, gio_dep ],
+  dependencies : [gst_dep, gio_dep, libm],
   # Only used with MSVC
   module_defs_file: meson.source_root() + '/win32/common/libgstrtsp.def',
 )

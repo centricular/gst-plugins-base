@@ -31,7 +31,7 @@ gstfft = library('gstfft-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [gst_dep, glib_dep],
+  dependencies : [gst_dep, glib_dep, libm],
 )
 
 fft_dep = declare_dependency(link_with: gstfft)
