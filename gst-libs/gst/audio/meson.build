@@ -69,6 +69,7 @@ gstaudio_h = custom_target('gstaudioenum_h',
 gstaudio_c = custom_target('gstaudioenum_c',
   output : 'audio-enumtypes.c',
   input : audio_mkenum_headers,
+  depends : [gstaudio_h],
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 # FIXME: use orc to generate these if available!

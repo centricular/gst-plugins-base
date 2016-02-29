@@ -48,7 +48,7 @@ gstpbutils_h = custom_target('gstpbutilsenum_h',
 gstpbutils_c = custom_target('gstpbutilsenum_c',
   output : 'pbutils-enumtypes.c',
   input : pbutils_mkenum_headers,
-  depends : [gstaudio_h, gstvideo_h],
+  depends : [gstaudio_h, gstvideo_h, gstpbutils_h],
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 
