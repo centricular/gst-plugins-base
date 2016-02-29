@@ -98,6 +98,7 @@ gstvideo_h = custom_target('gstvideoenum_h',
 gstvideo_c = custom_target('gstvideoenum_c',
   output : 'video-enumtypes.c',
   input : video_mkenum_headers,
+  depends : [gstvideo_h],
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 

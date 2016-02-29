@@ -33,7 +33,7 @@ gstrtp_enum_h = custom_target('gstrtp_enum_h',
 gstrtp_enum_c = custom_target('gstrtp_enum_c',
   output : 'gstrtp-enumtypes.c',
   input : rtp_headers,
-  depends : [gstaudio_h],
+  depends : [gstaudio_h, gstrtp_enum_h],
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 gst_rtp = library('gstrtp-@0@'.format(api_version),

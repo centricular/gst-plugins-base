@@ -33,6 +33,7 @@ gstrtsp_h = custom_target('gstrtspenum_h',
 gstrtsp_c = custom_target('gstrtspenum_c',
   output : 'gstrtsp-enumtypes.c',
   input : rtsp_headers,
+  depends : [gstrtsp_h],
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
 # FIXME: This should use find_library once it's fixed on Windows
