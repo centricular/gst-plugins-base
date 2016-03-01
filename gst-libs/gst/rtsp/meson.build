@@ -60,4 +60,6 @@ gst_rtsp = library('gstrtsp-@0@'.format(api_version),
   # Only used with MSVC
   module_defs_file: meson.source_root() + '/win32/common/libgstrtsp.def',
 )
+# TODO: generate gir
+
 rtsp_dep = declare_dependency(link_with : gst_rtsp, sources : [ gstrtsp_h ])
