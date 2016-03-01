@@ -96,27 +96,38 @@ gst_plugins_base_args = ['-DHAVE_CONFIG_H']
 
 libm = find_library('m', required : false)
 alsa_dep = dependency('alsa', version : '>=0.9.1', required : false)
-# cdparanoia upstream has a pkg-config file only in post-10.2 SVN so far, no release yet
-cdparanoia_dep = dependency('cdparanoia-3', version : '>=10.2', required : false)
-if not cdparanoia_dep.found()
-  if cc.has_function('cdda_open', prefix : '#include <cdda/cdda_interface.h>')
-    core_conf.set('CDPARANOIA_HEADERS_IN_DIR', true)
-    cdparanoia_dep = find_library('cdda_paranoia', required : false)
-  elif cc.has_function('cdda_open', prefix : '#include <cdda_interface.h>')
-    core_conf.set('CDPARANOIA_HEADERS_IN_DIR', false)
-    cdparanoia_dep = find_library('cdda_paranoia', required : false)
-  endif
-endif
 ogg_dep = dependency('ogg', version : '>=1.0', required : false)
 pango_dep = dependency('pangocairo', version : '>=1.22.0', required : false)
 theoradec_dep = dependency('theoradec', version : '>=1.1', required : false)
 theoraenc_dep = dependency('theoraenc', version : '>=1.1', required : false)
+
 vorbis_dep = dependency('vorbis', version : '>=1.0', required : false)
 vorbisenc_dep = dependency('vorbisenc', version : '>=1.0', required : false)
 vorbisidec_dep = dependency('vorbisidec', required : false)
 if vorbis_dep.found() or vorbisidec_dep.found()
   if cc.has_function('vorbis_synthesis_restart', prefix : '#include <vorbis/codec.h>')
     core_conf.set('HAVE_VORBIS_SYNTHESIS_RESTART', true)
+  endif
+endif
+
+cdparanoia_deps = []
+cdparanoia_found = false
+# cdparanoia upstream has a pkg-config file only in post-10.2 SVN so far, no release yet
+cdparanoia_dep = dependency('cdparanoia-3', version : '>=10.2', required : false)
+if cdparanoia_dep.found()
+  cdparanoia_deps = [cdparanoia_dep]
+  cdparanoia_found = true
+else
+  cdparanoia_dep = find_library('cdda_paranoia', required : false)
+  cdinterface_dep = find_library('cdda_interface', required : false)
+  if cdparanoia_dep.found() and cdinterface_dep.found()
+    cdparanoia_deps = [cdparanoia_dep, cdinterface_dep]
+    cdparanoia_found = true
+    if cc.has_function('cdda_open', prefix : '#include <cdda/cdda_interface.h>')
+      core_conf.set('CDPARANOIA_HEADERS_IN_DIR', true)
+    elif cc.has_function('cdda_open', prefix : '#include <cdda_interface.h>')
+      core_conf.set('CDPARANOIA_HEADERS_IN_DIR', false)
+    endif
   endif
 endif
 
