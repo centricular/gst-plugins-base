@@ -33,5 +33,6 @@ gstfft = library('gstfft-@0@'.format(api_version),
   install : true,
   dependencies : [gst_dep, glib_dep, libm],
 )
+# TODO: generate gir
 
 fft_dep = declare_dependency(link_with: gstfft)

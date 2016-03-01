@@ -64,6 +64,7 @@ pbutils = library('gstpbutils-@0@'.format(api_version),
   # Only used with MSVC
   module_defs_file: meson.source_root() + '/win32/common/libgstpbutils.def',
 )
+# TODO: generate gir
 
 pbutils_dep = declare_dependency(link_with : pbutils,
   sources : [gstpbutils_h])

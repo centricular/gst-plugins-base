@@ -47,4 +47,6 @@ gst_rtp = library('gstrtp-@0@'.format(api_version),
   # Only used with MSVC
   module_defs_file: meson.source_root() + '/win32/common/libgstrtp.def',
 )
+# TODO: generate gir
+
 rtp_dep = declare_dependency(link_with : gst_rtp, sources : [ gstrtp_enum_h ])
