@@ -13,7 +13,7 @@ if opus_dep.found()
     opus_sources,
     c_args : gst_plugins_base_args,
     include_directories : gst_plugins_base_incs,
-    dependencies : [ pbutils_dep, audio_dep, gst_dep, opus_dep ],
+    dependencies : [pbutils_dep, audio_dep, gst_dep, opus_dep, libm],
     install : true,
     install_dir : plugins_install_dir,
   )
