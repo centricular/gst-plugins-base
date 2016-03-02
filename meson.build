@@ -89,8 +89,9 @@ core_conf.set('GST_INSTALL_PLUGINS_HELPER', '"/FIXME"')
 core_conf.set('GST_DATADIR', '"/FIXME"')
 core_conf.set('GST_LICENSE', '"LGPL"')
 core_conf.set('DISABLE_ORC', 1)
-core_conf.set('DEFAULT_VIDEOSINK', '"FIXME"')
-core_conf.set('DEFAULT_AUDIOSINK', '"FIXME"')
+# FIXME: These should be configure options
+core_conf.set('DEFAULT_VIDEOSINK', '"autovideosink"')
+core_conf.set('DEFAULT_AUDIOSINK', '"autoaudiosink"')
 
 gst_plugins_base_args = ['-DHAVE_CONFIG_H']
 
