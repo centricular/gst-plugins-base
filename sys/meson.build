@@ -1,9 +1,9 @@
 if x11_dep.found()
-  subdir('ximage')
-endif
+  # XShm is only used by ximage and xvimage
+  # FIXME: Need to check for XShmAttach inside libXext
+  xshm_dep = dependency('xext', required : false)
+  core_conf.set('HAVE_XSHM', xshm_dep.found())
 
-# XXX: Ideally, we want to read the core_conf setting that we set in the main
-# meson.build file instead of doing this check twice?
-if x11_dep.found() and xvideo_dep.found()
+  subdir('ximage')
   subdir('xvimage')
 endif
