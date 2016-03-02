@@ -7,6 +7,8 @@ alsa_sources = [
   'gstalsasrc.c',
 ]
 
+alsa_dep = dependency('alsa', version : '>=0.9.1', required : false)
+
 if alsa_dep.found()
   gstalsa = library('gstalsa',
     alsa_sources,

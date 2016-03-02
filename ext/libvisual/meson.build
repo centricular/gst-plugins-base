@@ -3,6 +3,14 @@ libvisual_sources = [
   'plugin.c',
 ]
 
+libvisual_dep = dependency('libvisual-0.4', version : '>= 0.4.0', required : false)
+if libvisual_dep.found()
+  runcmd = run_command('pkg-config', '--variable=pluginsbasedir', 'libvisual-0.4')
+  if runcmd.returncode() == 0
+    core_conf.set('LIBVISUAL_PLUGINSBASEDIR', '"@0@"'.format(runcmd.stdout().strip()))
+  endif
+endif
+
 if libvisual_dep.found()
   gstlibvisual = library('gstlibvisual',
     libvisual_sources,

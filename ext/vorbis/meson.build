@@ -15,6 +15,16 @@ vorbisidec_sources = [
   'gstvorbiscommon.c',
 ]
 
+vorbis_dep = dependency('vorbis', version : '>=1.0', required : false)
+vorbisenc_dep = dependency('vorbisenc', version : '>=1.0', required : false)
+vorbisidec_dep = dependency('vorbisidec', required : false)
+
+if vorbis_dep.found() or vorbisidec_dep.found()
+  if cc.has_function('vorbis_synthesis_restart', prefix : '#include <vorbis/codec.h>')
+    core_conf.set('HAVE_VORBIS_SYNTHESIS_RESTART', true)
+  endif
+endif
+
 if vorbis_dep.found()
   vorbis_deps = [ vorbis_dep ]
   if vorbisenc_dep.found()

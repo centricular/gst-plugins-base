@@ -95,61 +95,16 @@ core_conf.set('DEFAULT_AUDIOSINK', '"FIXME"')
 gst_plugins_base_args = ['-DHAVE_CONFIG_H']
 
 libm = find_library('m', required : false)
-alsa_dep = dependency('alsa', version : '>=0.9.1', required : false)
-ogg_dep = dependency('ogg', version : '>=1.0', required : false)
-pango_dep = dependency('pangocairo', version : '>=1.22.0', required : false)
-theoradec_dep = dependency('theoradec', version : '>=1.1', required : false)
-theoraenc_dep = dependency('theoraenc', version : '>=1.1', required : false)
-
-vorbis_dep = dependency('vorbis', version : '>=1.0', required : false)
-vorbisenc_dep = dependency('vorbisenc', version : '>=1.0', required : false)
-vorbisidec_dep = dependency('vorbisidec', required : false)
-if vorbis_dep.found() or vorbisidec_dep.found()
-  if cc.has_function('vorbis_synthesis_restart', prefix : '#include <vorbis/codec.h>')
-    core_conf.set('HAVE_VORBIS_SYNTHESIS_RESTART', true)
-  endif
-endif
-
-cdparanoia_deps = []
-cdparanoia_found = false
-# cdparanoia upstream has a pkg-config file only in post-10.2 SVN so far, no release yet
-cdparanoia_dep = dependency('cdparanoia-3', version : '>=10.2', required : false)
-if cdparanoia_dep.found()
-  cdparanoia_deps = [cdparanoia_dep]
-  cdparanoia_found = true
-else
-  cdparanoia_dep = find_library('cdda_paranoia', required : false)
-  cdinterface_dep = find_library('cdda_interface', required : false)
-  if cdparanoia_dep.found() and cdinterface_dep.found()
-    cdparanoia_deps = [cdparanoia_dep, cdinterface_dep]
-    cdparanoia_found = true
-    if cc.has_function('cdda_open', prefix : '#include <cdda/cdda_interface.h>')
-      core_conf.set('CDPARANOIA_HEADERS_IN_DIR', true)
-    elif cc.has_function('cdda_open', prefix : '#include <cdda_interface.h>')
-      core_conf.set('CDPARANOIA_HEADERS_IN_DIR', false)
-    endif
-  endif
-endif
-
-# X11, XV, XShm
+# X11 checks are for sys/ and tests/
 x11_dep = dependency('x11', required : false)
-xvideo_dep = dependency('xv', required : false)
-core_conf.set('HAVE_X', x11_dep.found())
-core_conf.set('HAVE_XVIDEO', x11_dep.found() and xvideo_dep.found())
-if x11_dep.found()
-  # FIXME: Need to check for XShmAttach inside libXext
-  xshm_dep = dependency('xext', required : false)
-  core_conf.set('HAVE_XSHM', xshm_dep.found())
-endif
-
+# GLib checks are for the entire project
 giounix_dep = dependency('gio-unix-2.0', version : glib_req, required : false)
 glib_dep = dependency('glib-2.0', version : glib_req)
 gobject_dep = dependency('gobject-2.0', version : glib_req)
 gio_dep = dependency('gio-2.0', version : glib_req)
 
+core_conf.set('HAVE_X', x11_dep.found())
 core_conf.set('HAVE_GIO_UNIX_2_0', giounix_dep.found())
-core_conf.set('HAVE_OGG', ogg_dep.found())
-core_conf.set('HAVE_THEORA', theoradec_dep.found() and theoraenc_dep.found())
 
 runcmd = run_command('pkg-config', '--variable=giomoduledir', 'gio-2.0')
 if runcmd.returncode() == 0
@@ -163,18 +118,6 @@ runcmd = run_command('pkg-config', '--variable=prefix', 'gio-2.0')
 if runcmd.returncode() == 0
   core_conf.set('GIO_PREFIX', '"@0@"'.format(runcmd.stdout().strip()))
 endif
-
-libvisual_dep = dependency('libvisual-0.4', version : '>= 0.4.0', required : false)
-if libvisual_dep.found()
-  runcmd = run_command('pkg-config', '--variable=pluginsbasedir', 'libvisual-0.4')
-  if runcmd.returncode() == 0
-    core_conf.set('LIBVISUAL_PLUGINSBASEDIR', '"@0@"'.format(runcmd.stdout().strip()))
-  endif
-endif
-
-configure_file(input : 'config.h.meson',
-  output : 'config.h',
-  configuration : core_conf)
 
 gst_plugins_base_incs = include_directories('gst-libs', '.')
 
@@ -202,3 +145,8 @@ subdir('sys')
 subdir('tools')
 subdir('tests')
 subdir('pkgconfig')
+
+# Use core_conf after all subdirs have set values
+configure_file(input : 'config.h.meson',
+  output : 'config.h',
+  configuration : core_conf)

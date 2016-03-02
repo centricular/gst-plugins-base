@@ -3,7 +3,10 @@ theora_sources = [
   'gsttheoraparse.c',
 ]
 
-theora_deps = [ ]
+theoradec_dep = dependency('theoradec', version : '>=1.1', required : false)
+theoraenc_dep = dependency('theoraenc', version : '>=1.1', required : false)
+core_conf.set('HAVE_THEORA', theoradec_dep.found() and theoraenc_dep.found())
+theora_deps = []
 
 if theoradec_dep.found() or theoraenc_dep.found()
   if theoradec_dep.found()
