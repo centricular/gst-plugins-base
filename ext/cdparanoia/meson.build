@@ -7,8 +7,8 @@ if cdparanoia_dep.found()
   cdparanoia_deps = [cdparanoia_dep]
   cdparanoia_found = true
 else
-  cdparanoia_dep = find_library('cdda_paranoia', required : false)
-  cdinterface_dep = find_library('cdda_interface', required : false)
+  cdparanoia_dep = cc.find_library('cdda_paranoia', required : false)
+  cdinterface_dep = cc.find_library('cdda_interface', required : false)
   if cdparanoia_dep.found() and cdinterface_dep.found()
     cdparanoia_deps = [cdparanoia_dep, cdinterface_dep]
     cdparanoia_found = true

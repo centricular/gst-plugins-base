@@ -95,7 +95,7 @@ core_conf.set('DEFAULT_AUDIOSINK', '"autoaudiosink"')
 
 gst_plugins_base_args = ['-DHAVE_CONFIG_H']
 
-libm = find_library('m', required : false)
+libm = cc.find_library('m', required : false)
 # X11 checks are for sys/ and tests/
 x11_dep = dependency('x11', required : false)
 # GLib checks are for the entire project
