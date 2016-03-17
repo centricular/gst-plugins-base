@@ -36,7 +36,7 @@ gstrtsp_c = custom_target('gstrtspenum_c',
   depends : [gstrtsp_h],
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
-# FIXME: This should use find_library once it's fixed on Windows
+# FIXME: This should use cc.find_library once it's fixed on Windows
 if host_machine.system() == 'windows'
   if cc.get_id() == 'msvc'
     win32_libs = ['ws2_32.lib']
