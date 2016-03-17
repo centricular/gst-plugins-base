@@ -16,7 +16,7 @@ if libvisual_dep.found()
     libvisual_sources,
     include_directories : gst_plugins_base_incs,
     c_args : gst_plugins_base_args,
-    dependencies : [ libvisual_dep, video_dep, pbutils_dep, gst_dep, glib_dep ],
+    dependencies : [ libvisual_dep, audio_dep, video_dep, pbutils_dep, gst_dep, glib_dep ],
     install : true,
     install_dir : plugins_install_dir,
   )
