@@ -32,8 +32,7 @@ gstfft = library('gstfft-@0@'.format(api_version),
   soversion : soversion,
   install : true,
   dependencies : [gst_dep, glib_dep, libm],
-  # Only used with MSVC
-  module_defs_file: meson.source_root() + '/win32/common/libgstfft.def',
+  vs_module_defs: vs_module_defs_dir + 'libgstfft.def',
 )
 # TODO: generate gir
 

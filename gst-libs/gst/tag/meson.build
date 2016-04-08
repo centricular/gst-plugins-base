@@ -30,8 +30,7 @@ gsttag = library('gsttag-@0@'.format(api_version),
   soversion : soversion,
   install : true,
   dependencies : [gst_base_dep, gst_dep, glib_dep, libm],
-  # Only used with MSVC
-  module_defs_file: meson.source_root() + '/win32/common/libgsttag.def',
+  vs_module_defs: vs_module_defs_dir + 'libgsttag.def',
 )
 # TODO: generate gir
 

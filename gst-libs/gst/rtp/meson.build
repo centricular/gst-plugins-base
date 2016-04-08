@@ -44,8 +44,7 @@ gst_rtp = library('gstrtp-@0@'.format(api_version),
   soversion : soversion,
   install : true,
   dependencies : [audio_dep, gst_dep, gst_base_dep, glib_dep],
-  # Only used with MSVC
-  module_defs_file: meson.source_root() + '/win32/common/libgstrtp.def',
+  vs_module_defs: vs_module_defs_dir + 'libgstrtp.def',
 )
 # TODO: generate gir
 

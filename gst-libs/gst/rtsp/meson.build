@@ -57,8 +57,7 @@ gst_rtsp = library('gstrtsp-@0@'.format(api_version),
   install : true,
   link_args : win32_libs,
   dependencies : [gst_dep, gio_dep, libm],
-  # Only used with MSVC
-  module_defs_file: meson.source_root() + '/win32/common/libgstrtsp.def',
+  vs_module_defs: vs_module_defs_dir + 'libgstrtsp.def',
 )
 # TODO: generate gir
 
