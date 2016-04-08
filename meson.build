@@ -139,6 +139,8 @@ else
   gst_controller_dep = dependency('gstreamer-controller-1.0', version : gst_req)
 endif
 
+vs_module_defs_dir = meson.source_root() + '/win32/common/'
+
 subdir('gst-libs')
 subdir('gst')
 subdir('ext')

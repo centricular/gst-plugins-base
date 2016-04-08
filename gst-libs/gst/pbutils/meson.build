@@ -61,8 +61,7 @@ pbutils = library('gstpbutils-@0@'.format(api_version),
   soversion : soversion,
   install : true,
   dependencies : [gst_dep, gst_base_dep, glib_dep, video_dep, audio_dep, tag_dep],
-  # Only used with MSVC
-  module_defs_file: meson.source_root() + '/win32/common/libgstpbutils.def',
+  vs_module_defs: vs_module_defs_dir + 'libgstpbutils.def',
 )
 # TODO: generate gir
 
