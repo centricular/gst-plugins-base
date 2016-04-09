@@ -12,9 +12,9 @@ else
   if cdparanoia_dep.found() and cdinterface_dep.found()
     cdparanoia_deps = [cdparanoia_dep, cdinterface_dep]
     cdparanoia_found = true
-    if cc.has_function('cdda_open', prefix : '#include <cdda/cdda_interface.h>')
+    if cc.has_header_symbol('cdda/cdda_interface.h', 'cdda_open')
       core_conf.set('CDPARANOIA_HEADERS_IN_DIR', true)
-    elif cc.has_function('cdda_open', prefix : '#include <cdda_interface.h>')
+    elif cc.has_header_symbol('cdda_interface.h', 'cdda_open')
       core_conf.set('CDPARANOIA_HEADERS_IN_DIR', false)
     endif
   endif
@@ -23,9 +23,9 @@ endif
 if cdparanoia_found
   gstcdparanoia = library('gstcdparanoia',
     ['gstcdparanoiasrc.c'],
-    include_directories : gst_plugins_base_incs,
+    include_directories: [configinc, libsinc],
     c_args : gst_plugins_base_args,
-    dependencies : cdparanoia_deps + [audio_dep, gst_dep, glib_dep],
+    dependencies : cdparanoia_deps + glib_deps + [audio_dep, gst_dep, gst_base_dep],
     install : true,
     install_dir : plugins_install_dir,
   )

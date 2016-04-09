@@ -25,16 +25,17 @@ install_headers(tag_headers, subdir : 'gstreamer-1.0/gst/tag/')
 gsttag = library('gsttag-@0@'.format(api_version),
   tag_sources,
   c_args : gst_plugins_base_args,
-  include_directories: gst_plugins_base_incs,
+  include_directories: [configinc, libsinc],
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [gst_base_dep, gst_dep, glib_dep, libm],
+  dependencies : glib_deps + [gst_base_dep, gst_dep, libm],
   vs_module_defs: vs_module_defs_dir + 'libgsttag.def',
 )
 # TODO: generate gir
 
-tag_dep = declare_dependency(link_with: gsttag)
+tag_dep = declare_dependency(link_with: gsttag,
+  include_directories : [libsinc])
 
 # FIXME: iso-codes stuff
 # little program that reads iso_639.xml and outputs tables for us as fallback
@@ -45,9 +46,8 @@ tag_dep = declare_dependency(link_with: gsttag)
 #  install : false,
 #)
 executable('mklicensestables', 'mklicensestables.c',
-  include_directories : gst_plugins_base_incs,
   c_args : gst_plugins_base_args,
-  link_with : gsttag,
-  dependencies : [gst_dep, glib_dep],
+  include_directories: [configinc],
+  dependencies : glib_deps + [tag_dep, gst_dep],
   install : false,
 )

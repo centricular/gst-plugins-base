@@ -15,9 +15,9 @@ endif
 
 gsttcp = library('gsttcp',
   tcp_sources,
-  include_directories : gst_plugins_base_incs,
   c_args : gst_plugins_base_args,
-  dependencies : [ gst_base_dep, gst_net_dep, gst_dep, glib_dep ],
+  include_directories: [configinc, libsinc],
+  dependencies : glib_deps + [gio_dep, gst_base_dep, gst_net_dep, gst_dep],
   install : true,
   install_dir : plugins_install_dir,
 )

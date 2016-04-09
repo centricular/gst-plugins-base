@@ -1,9 +1,8 @@
 adder = library('gstapp',
   'gstapp.c',
-  include_directories : gst_plugins_base_incs,
   c_args: gst_plugins_base_args,
-  link_with : gstapp,
-  dependencies : [gst_base_dep, gst_dep, app_dep, tag_dep, glib_dep],
+  include_directories: [configinc],
+  dependencies : glib_deps + [gst_base_dep, gst_dep, app_dep, tag_dep],
   install : true,
   install_dir : plugins_install_dir,
 )
