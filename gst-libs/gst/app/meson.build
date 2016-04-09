@@ -20,13 +20,14 @@ marshal_src = custom_target('app_marshal_c',
 gstapp = library('gstapp-@0@'.format(api_version),
   app_sources, marshal_src, marshal_header,
   c_args : gst_plugins_base_args,
-  include_directories : gst_plugins_base_incs,
+  include_directories: [configinc, libsinc],
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [ glib_dep, gst_dep, gst_base_dep ],
+  dependencies : glib_deps + [gst_dep, gst_base_dep],
   vs_module_defs: vs_module_defs_dir + 'libgstapp.def',
 )
 # TODO: generate gir
 
-app_dep = declare_dependency(link_with: gstapp)
+app_dep = declare_dependency(link_with: gstapp,
+  include_directories : [libsinc])

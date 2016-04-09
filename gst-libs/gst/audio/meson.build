@@ -84,17 +84,17 @@ audio_orc_c = configure_file(input : 'gstaudiopack-dist.c',
 
 gstaudio = library('gstaudio-@0@'.format(api_version),
   audio_src, gstaudio_h, gstaudio_c, audio_orc_c,
-  include_directories : gst_plugins_base_incs,
   c_args: gst_plugins_base_args,
+  include_directories: [configinc, libsinc],
   version : libversion,
   soversion : soversion,
   install : true,
-  link_with : [gsttag],
-  dependencies : [gst_dep, gst_base_dep, glib_dep, libm],
+  dependencies : glib_deps + [tag_dep, gst_dep, gst_base_dep, libm],
   vs_module_defs: vs_module_defs_dir + 'libgstaudio.def',
 )
 # TODO: generate gir
 
 audio_dep = declare_dependency(link_with : gstaudio,
+  include_directories : [libsinc],
   sources : [gstaudio_h]
 )

@@ -36,29 +36,21 @@ gstrtsp_c = custom_target('gstrtspenum_c',
   depends : [gstrtsp_h],
   command : [mkenums, '@OUTPUT@', '@INPUT@'])
 
-# FIXME: This should use cc.find_library once it's fixed on Windows
-if host_machine.system() == 'windows'
-  if cc.get_id() == 'msvc'
-    win32_libs = ['ws2_32.lib']
-  else
-    win32_libs = ['-lws2_32']
-  endif
-else
-  win32_libs = []
-endif
+winsock2 = cc.find_library('ws2_32', required : false)
 
 gst_rtsp = library('gstrtsp-@0@'.format(api_version),
   rtsp_sources,
   gstrtsp_h, gstrtsp_c,
-  include_directories : gst_plugins_base_incs,
   c_args : gst_plugins_base_args,
+  include_directories: [configinc, libsinc],
   version : libversion,
   soversion : soversion,
   install : true,
-  link_args : win32_libs,
-  dependencies : [gst_dep, gio_dep, libm],
+  dependencies : [gst_dep, gio_dep, libm, winsock2],
   vs_module_defs: vs_module_defs_dir + 'libgstrtsp.def',
 )
 # TODO: generate gir
 
-rtsp_dep = declare_dependency(link_with : gst_rtsp, sources : [ gstrtsp_h ])
+rtsp_dep = declare_dependency(link_with : gst_rtsp,
+  include_directories : [libsinc],
+  sources : [gstrtsp_h])

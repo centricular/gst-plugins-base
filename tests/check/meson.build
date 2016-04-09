@@ -100,6 +100,10 @@ test_env = [
   'CK_DEFAULT_TIMEOUT=20',
 ]
 
+test_deps = [gst_dep, gst_base_dep, gst_net_dep, gst_check_dep, audio_dep,
+  video_dep, pbutils_dep, rtp_dep, rtsp_dep, tag_dep, allocators_dep, app_dep,
+  fft_dep, riff_dep, sdp_dep, gio_dep] + glib_deps
+
 foreach t : base_tests
   test_name = t.get(0)
   extra_deps = [ ]
@@ -113,36 +117,19 @@ foreach t : base_tests
   endif
   if not skip_test
     exe = executable(test_name, '@0@.c'.format(test_name),
-      include_directories : [ gst_plugins_base_incs ],
+      include_directories : [configinc],
       c_args : ['-DHAVE_CONFIG_H=1' ] + test_defines,
-      link_with : [ gsttag, gstallocators, gstapp, gstfft, gstriff, gstsdp ],
-      dependencies : [ audio_dep, video_dep, pbutils_dep, rtp_dep, rtsp_dep,
-                       gst_dep, gst_base_dep, gst_net_dep, gst_check_dep,
-                       gio_dep, gobject_dep, glib_dep, libm ] + extra_deps,
+      dependencies : [libm] + test_deps + extra_deps,
     )
     test(test_name, exe,
-      env: test_env + [ 'GST_REGISTRY=@0@/@1@.registry'.format(meson.current_build_dir(), test_name) ]
+      env: test_env + ['GST_REGISTRY=@0@/@1@.registry'.format(meson.current_build_dir(), test_name)]
     )
   endif
 endforeach
 
 # ===============> FIXME <==========
-if false
-if have_registry
-  test('gstcpp', executable('gstcpp', 'gst/gstcpp.cc',
-    gstenum_h,
-    include_directories : [configinc, libsinc],
-    cpp_args : ['-DHAVE_CONFIG_H=1'] + test_defines,
-    link_with : [gst_check, gst_controller, gst_net, gst_base, libgst],
-    dependencies : [gio_dep, gobject_dep, gmodule_dep, glib_dep]),
-    env: test_env + [ 'GST_REGISTRY=@0@/gstcpp.registry'.format(meson.current_build_dir()) ])
-endif
-
 test('gstlibscpp', executable('gstlibscpp', 'libs/gstlibscpp.cc',
-    gstenum_h,
-    include_directories : [configinc, libsinc],
-    cpp_args : ['-DHAVE_CONFIG_H=1'],
-    link_with : [gst_check, gst_controller, gst_net, gst_base, libgst],
-    dependencies : [gio_dep, gobject_dep, gmodule_dep, glib_dep]),
-    env: test_env + [ 'GST_REGISTRY=@0@/gstlibscpp.registry'.format(meson.current_build_dir()) ])
-endif
+  include_directories : [configinc],
+  cpp_args : gst_plugins_base_args,
+  dependencies : test_deps),
+  env: test_env + [ 'GST_REGISTRY=@0@/gstlibscpp.registry'.format(meson.current_build_dir()) ])

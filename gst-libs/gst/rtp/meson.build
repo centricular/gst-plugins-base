@@ -38,14 +38,16 @@ gstrtp_enum_c = custom_target('gstrtp_enum_c',
 
 gst_rtp = library('gstrtp-@0@'.format(api_version),
   rtp_sources, gstrtp_enum_c, gstrtp_enum_h,
-  include_directories : gst_plugins_base_incs,
   c_args : gst_plugins_base_args,
+  include_directories: [configinc, libsinc],
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [audio_dep, gst_dep, gst_base_dep, glib_dep],
+  dependencies : glib_deps + [audio_dep, gst_dep, gst_base_dep],
   vs_module_defs: vs_module_defs_dir + 'libgstrtp.def',
 )
 # TODO: generate gir
 
-rtp_dep = declare_dependency(link_with : gst_rtp, sources : [ gstrtp_enum_h ])
+rtp_dep = declare_dependency(link_with : gst_rtp,
+  include_directories : [libsinc],
+  sources : [gstrtp_enum_h])

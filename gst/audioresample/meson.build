@@ -6,9 +6,9 @@ resample_sources = ['gstaudioresample.c',
 
 audioresample = library('gstaudioresample',
   resample_sources,
-  include_directories : gst_plugins_base_incs,
   c_args : gst_plugins_base_args,
-  dependencies : [audio_dep, gst_dep, gst_base_dep, glib_dep, libm],
+  include_directories: [configinc, libsinc],
+  dependencies : glib_deps + [audio_dep, gst_dep, gst_base_dep, libm],
   install : true,
   install_dir : plugins_install_dir,
 )

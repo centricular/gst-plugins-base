@@ -60,14 +60,14 @@ foreach h : check_headers
 endforeach
 
 check_functions = [
-  ['HAVE_DCGETTEXT', 'dcgettext', '#include<libintl.h>'],
-  ['HAVE_GMTIME_R', 'gmtime_r', '#include<time.h>'],
-  ['HAVE_LRINTF', 'lrintf', '#include<math.h>'],
-  ['HAVE_MMAP', 'mmap', '#include<sys/mman.h>'],
+  ['HAVE_DCGETTEXT', 'dcgettext'],
+  ['HAVE_GMTIME_R', 'gmtime_r'],
+  ['HAVE_LRINTF', 'lrintf'],
+  ['HAVE_MMAP', 'mmap'],
 ]
 
 foreach f : check_functions
-  if cc.has_function(f.get(1), prefix : f.get(2))
+  if cc.has_function(f.get(1))
     core_conf.set(f.get(0), 1)
   endif
 endforeach
@@ -100,8 +100,9 @@ libm = cc.find_library('m', required : false)
 x11_dep = dependency('x11', required : false)
 # GLib checks are for the entire project
 giounix_dep = dependency('gio-unix-2.0', version : glib_req, required : false)
-glib_dep = dependency('glib-2.0', version : glib_req)
-gobject_dep = dependency('gobject-2.0', version : glib_req)
+# Almost everything that uses glib also uses gobject
+glib_deps = [dependency('glib-2.0', version : glib_req),
+	     dependency('gobject-2.0', version : glib_req)]
 gio_dep = dependency('gio-2.0', version : glib_req)
 
 core_conf.set('HAVE_X', x11_dep.found())
@@ -120,24 +121,21 @@ if runcmd.returncode() == 0
   core_conf.set('GIO_PREFIX', '"@0@"'.format(runcmd.stdout().strip()))
 endif
 
-gst_plugins_base_incs = include_directories('gst-libs', '.')
+configinc = include_directories('.')
+libsinc = include_directories('gst-libs')
 
 # To use the subproject make subprojects directory
 # and put gstreamer meson git there (symlinking is fine)
-gst_dep = dependency('gstreamer-1.0', version : gst_req, required : false)
-if not gst_dep.found()
-  gst_proj = subproject('gstreamer')
-  gst_dep = gst_proj.get_variable('gst_dep')
-  gst_base_dep = gst_proj.get_variable('gst_base_dep')
-  gst_net_dep = gst_proj.get_variable('gst_net_dep')
-  gst_check_dep = gst_proj.get_variable('gst_check_dep')
-  gst_controller_dep = gst_proj.get_variable('gst_controller_dep')
-else
-  gst_base_dep = dependency('gstreamer-base-1.0', version : gst_req)
-  gst_net_dep = dependency('gstreamer-net-1.0', version : gst_req)
-  gst_check_dep = dependency('gstreamer-check-1.0', version : gst_req)
-  gst_controller_dep = dependency('gstreamer-controller-1.0', version : gst_req)
-endif
+gst_dep = dependency('gstreamer-1.0', version : gst_req,
+  fallback : ['gstreamer', 'gst_dep'])
+gst_base_dep = dependency('gstreamer-base-1.0', version : gst_req,
+  fallback : ['gstreamer', 'gst_base_dep'])
+gst_net_dep = dependency('gstreamer-net-1.0', version : gst_req,
+  fallback : ['gstreamer', 'gst_net_dep'])
+gst_check_dep = dependency('gstreamer-check-1.0', version : gst_req,
+  fallback : ['gstreamer', 'gst_check_dep'])
+gst_controller_dep = dependency('gstreamer-controller-1.0', version : gst_req,
+  fallback : ['gstreamer', 'gst_controller_dep'])
 
 vs_module_defs_dir = meson.source_root() + '/win32/common/'
 

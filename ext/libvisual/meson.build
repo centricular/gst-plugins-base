@@ -14,9 +14,9 @@ endif
 if libvisual_dep.found()
   gstlibvisual = library('gstlibvisual',
     libvisual_sources,
-    include_directories : gst_plugins_base_incs,
     c_args : gst_plugins_base_args,
-    dependencies : [ libvisual_dep, audio_dep, video_dep, pbutils_dep, gst_dep, glib_dep ],
+    include_directories: [configinc, libsinc],
+    dependencies : glib_deps + [libvisual_dep, audio_dep, video_dep, pbutils_dep, gst_dep, gst_base_dep],
     install : true,
     install_dir : plugins_install_dir,
   )

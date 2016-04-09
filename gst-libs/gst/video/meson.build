@@ -105,14 +105,15 @@ gstvideo_c = custom_target('gstvideoenum_c',
 gstvideo = library('gstvideo-@0@'.format(api_version),
   video_sources, gstvideo_h, gstvideo_c, video_orc_c,
   c_args : gst_plugins_base_args,
-  include_directories : gst_plugins_base_incs,
+  include_directories: [configinc, libsinc],
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : [gst_base_dep, gst_dep, glib_dep, libm],
+  dependencies : glib_deps + [gst_base_dep, gst_dep, libm],
   vs_module_defs: vs_module_defs_dir + 'libgstvideo.def',
 )
 # TODO: generate gir
 
 video_dep = declare_dependency(link_with : gstvideo,
-  sources : gstvideo_h)
+  include_directories : [libsinc],
+  sources : [gstvideo_h])

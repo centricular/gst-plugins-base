@@ -20,22 +20,21 @@ vorbisenc_dep = dependency('vorbisenc', version : '>=1.0', required : false)
 vorbisidec_dep = dependency('vorbisidec', required : false)
 
 if vorbis_dep.found() or vorbisidec_dep.found()
-  if cc.has_function('vorbis_synthesis_restart', prefix : '#include <vorbis/codec.h>')
+  if cc.has_header_symbol('vorbis/codec.h', 'vorbis_synthesis_restart')
     core_conf.set('HAVE_VORBIS_SYNTHESIS_RESTART', true)
   endif
 endif
 
 if vorbis_dep.found()
-  vorbis_deps = [ vorbis_dep ]
+  vorbis_deps = [vorbis_dep]
   if vorbisenc_dep.found()
     vorbis_deps += vorbisenc_dep
   endif
   gstvorbis = library('gstvorbis',
     vorbis_sources,
-    include_directories : gst_plugins_base_incs,
     c_args : gst_plugins_base_args,
-    link_with: [ gsttag ],
-    dependencies : vorbis_deps + [ audio_dep, gst_dep, glib_dep ],
+    include_directories: [configinc, libsinc],
+    dependencies : vorbis_deps + glib_deps + [audio_dep, tag_dep, gst_dep, gst_base_dep],
     install : true,
     install_dir : plugins_install_dir,
   )
@@ -44,10 +43,9 @@ endif
 if vorbisidec_dep.found()
   gstivorbisdec = library('gstivorbisdec',
     vorbisidec_sources,
-    include_directories : gst_plugins_base_incs,
     c_args : gst_plugins_base_args,
-    link_with: [ gsttag ],
-    dependencies : [ vorbisidec_dep, audio_dep, gst_dep, glib_dep ],
+    include_directories: [configinc, libsinc],
+    dependencies : glib_deps + [vorbisidec_dep, audio_dep, tag_dep, gst_dep, gst_base_dep],
     install : true,
     install_dir : plugins_install_dir,
   )

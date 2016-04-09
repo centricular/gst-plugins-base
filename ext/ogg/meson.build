@@ -16,10 +16,9 @@ core_conf.set('HAVE_OGG', ogg_dep.found())
 if ogg_dep.found()
   gstogg = library('gstogg',
     ogg_sources,
-    include_directories : gst_plugins_base_incs,
     c_args : gst_plugins_base_args,
-    link_with: [gsttag, gstriff],
-    dependencies : [ogg_dep, audio_dep, pbutils_dep, gst_dep, gst_base_dep, glib_dep],
+    include_directories: [configinc, libsinc],
+    dependencies : glib_deps + [ogg_dep, audio_dep, pbutils_dep, tag_dep, riff_dep, gst_dep, gst_base_dep],
     install : true,
     install_dir : plugins_install_dir,
   )
