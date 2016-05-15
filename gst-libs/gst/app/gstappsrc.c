@@ -98,7 +98,6 @@
 
 #include <string.h>
 
-#include "gstapp-marshal.h"
 #include "gstappsrc.h"
 
 struct _GstAppSrcPrivate
@@ -420,7 +419,7 @@ gst_app_src_class_init (GstAppSrcClass * klass)
   gst_app_src_signals[SIGNAL_NEED_DATA] =
       g_signal_new ("need-data", G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST,
       G_STRUCT_OFFSET (GstAppSrcClass, need_data),
-      NULL, NULL, __gst_app_marshal_VOID__UINT, G_TYPE_NONE, 1, G_TYPE_UINT);
+      NULL, NULL, NULL, G_TYPE_NONE, 1, G_TYPE_UINT);
 
   /**
    * GstAppSrc::enough-data:
@@ -449,8 +448,7 @@ gst_app_src_class_init (GstAppSrcClass * klass)
   gst_app_src_signals[SIGNAL_SEEK_DATA] =
       g_signal_new ("seek-data", G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST,
       G_STRUCT_OFFSET (GstAppSrcClass, seek_data),
-      NULL, NULL, __gst_app_marshal_BOOLEAN__UINT64, G_TYPE_BOOLEAN, 1,
-      G_TYPE_UINT64);
+      NULL, NULL, NULL, G_TYPE_BOOLEAN, 1, G_TYPE_UINT64);
 
    /**
     * GstAppSrc::push-buffer:
@@ -467,7 +465,7 @@ gst_app_src_class_init (GstAppSrcClass * klass)
   gst_app_src_signals[SIGNAL_PUSH_BUFFER] =
       g_signal_new ("push-buffer", G_TYPE_FROM_CLASS (klass),
       G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION, G_STRUCT_OFFSET (GstAppSrcClass,
-          push_buffer), NULL, NULL, __gst_app_marshal_ENUM__BOXED,
+          push_buffer), NULL, NULL, NULL,
       GST_TYPE_FLOW_RETURN, 1, GST_TYPE_BUFFER);
 
   /**
@@ -493,7 +491,7 @@ gst_app_src_class_init (GstAppSrcClass * klass)
   gst_app_src_signals[SIGNAL_PUSH_SAMPLE] =
       g_signal_new ("push-sample", G_TYPE_FROM_CLASS (klass),
       G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION, G_STRUCT_OFFSET (GstAppSrcClass,
-          push_sample), NULL, NULL, __gst_app_marshal_ENUM__BOXED,
+          push_sample), NULL, NULL, NULL,
       GST_TYPE_FLOW_RETURN, 1, GST_TYPE_SAMPLE);
 
 
@@ -506,7 +504,7 @@ gst_app_src_class_init (GstAppSrcClass * klass)
   gst_app_src_signals[SIGNAL_END_OF_STREAM] =
       g_signal_new ("end-of-stream", G_TYPE_FROM_CLASS (klass),
       G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION, G_STRUCT_OFFSET (GstAppSrcClass,
-          end_of_stream), NULL, NULL, __gst_app_marshal_ENUM__VOID,
+          end_of_stream), NULL, NULL, NULL,
       GST_TYPE_FLOW_RETURN, 0, G_TYPE_NONE);
 
   gst_element_class_set_static_metadata (element_class, "AppSrc",
