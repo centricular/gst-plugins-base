@@ -93,6 +93,9 @@ core_conf.set('DISABLE_ORC', 1)
 core_conf.set('DEFAULT_VIDEOSINK', '"autovideosink"')
 core_conf.set('DEFAULT_AUDIOSINK', '"autoaudiosink"')
 
+# Set whether the audioresampling method should be detected at runtime
+core_conf.set('AUDIORESAMPLE_FORMAT_' + get_option('audioresample_format').to_upper(), true)
+
 gst_plugins_base_args = ['-DHAVE_CONFIG_H']
 
 libm = cc.find_library('m', required : false)

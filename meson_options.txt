@@ -1,0 +1,1 @@
+option('audioresample_format', type : 'combo', choices : ['int', 'float', 'auto'], value : 'auto')
