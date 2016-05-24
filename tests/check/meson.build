@@ -41,6 +41,7 @@ base_tests = [
   [ 'elements/multisocketsink' ],
   [ 'elements/playbin' ],
   [ 'elements/playbin-complex' ],
+  [ 'elements/playsink' ],
   [ 'elements/streamsynchronizer' ],
   [ 'elements/subparse' ],
   [ 'elements/textoverlay', not pango_dep.found() ],

@@ -6,6 +6,7 @@ audio_src= [
   'audio-format.c',
   'audio-info.c',
   'audio-quantize.c',
+  'audio-resampler.c',
   'gstaudiobasesink.c',
   'gstaudiobasesrc.c',
   'gstaudiocdsrc.c',
@@ -22,15 +23,20 @@ audio_src= [
   'streamvolume.c',
 ]
 
-# FIXME: check headers
-audio_headers = [
-  'audio-channel-mixer.h',
-  'audio-channels.h',
-  'audio-converter.h',
-  'audio-format.h',
+audio_mkenum_headers = [
   'audio.h',
+  'audio-format.h',
+  'audio-channels.h',
+  'audio-channel-mixer.h',
+  'audio-converter.h',
   'audio-info.h',
   'audio-quantize.h',
+  'audio-resampler.h',
+  'gstaudioringbuffer.h',
+]
+
+# FIXME: check headers
+audio_headers = audio_mkenum_headers + [
   'gstaudiobasesink.h',
   'gstaudiobasesrc.h',
   'gstaudiocdsrc.h',
@@ -40,23 +46,11 @@ audio_headers = [
   'gstaudiofilter.h',
   'gstaudioiec61937.h',
   'gstaudiometa.h',
-  'gstaudioringbuffer.h',
   'gstaudiosink.h',
   'gstaudiosrc.h',
   'streamvolume.h',
 ]
 install_headers(audio_headers, subdir : 'gstreamer-1.0/gst/audio/')
-
-audio_mkenum_headers = [
-  'audio.h',
-  'audio-format.h',
-  'audio-channels.h',
-  'audio-channel-mixer.h',
-  'audio-converter.h',
-  'audio-info.h',
-  'audio-quantize.h',
-  'gstaudioringbuffer.h',
-]
 
 mkenums = find_program('audio_mkenum.py')
 gstaudio_h = custom_target('gstaudioenum_h',

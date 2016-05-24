@@ -1,8 +1,4 @@
-resample_sources = ['gstaudioresample.c',
-  'speex_resampler_int.c',
-  'speex_resampler_float.c',
-  'speex_resampler_double.c'
-]
+resample_sources = ['gstaudioresample.c']
 
 audioresample = library('gstaudioresample',
   resample_sources,
