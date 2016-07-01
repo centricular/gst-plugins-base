@@ -19,7 +19,7 @@ gstriff = library('gstriff-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : glib_deps + [audio_dep, gst_dep, gst_base_dep],
+  dependencies : glib_deps + [audio_dep, tag_dep, gst_dep, gst_base_dep],
   vs_module_defs: vs_module_defs_dir + 'libgstriff.def',
 )
 # TODO: generate gir
