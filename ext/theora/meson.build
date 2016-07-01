@@ -20,6 +20,7 @@ if theoradec_dep.found() or theoraenc_dep.found()
   gsttheora = library('gsttheora',
     theora_sources,
     c_args : gst_plugins_base_args,
+    link_args : noseh_link_args,
     include_directories: [configinc, libsinc],
     dependencies : theora_deps + glib_deps + [video_dep, tag_dep, gst_dep, gst_base_dep],
     install : true,
