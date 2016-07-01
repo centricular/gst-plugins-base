@@ -93,13 +93,13 @@ gstvideo_h = custom_target('gstvideoenum_h',
   input : video_mkenum_headers,
   install : true,
   install_dir : 'include/gstreamer-1.0/gst/video/',
-  command : [mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 gstvideo_c = custom_target('gstvideoenum_c',
   output : 'video-enumtypes.c',
   input : video_mkenum_headers,
   depends : [gstvideo_h],
-  command : [mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 
 gstvideo = library('gstvideo-@0@'.format(api_version),

@@ -43,13 +43,13 @@ gstpbutils_h = custom_target('gstpbutilsenum_h',
   input : pbutils_mkenum_headers,
   install : true,
   install_dir : 'include/gstreamer-1.0/gst/pbutils/',
-  command : [mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 gstpbutils_c = custom_target('gstpbutilsenum_c',
   output : 'pbutils-enumtypes.c',
   input : pbutils_mkenum_headers,
   depends : [gstaudio_h, gstvideo_h, gstpbutils_h],
-  command : [mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 
 
