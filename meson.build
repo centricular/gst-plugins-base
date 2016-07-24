@@ -1,5 +1,5 @@
 project('gst-plugins-base', 'c', 'cpp',
-  version : '1.9.0.1',
+  version : '1.9.1.1',
   meson_version : '>= 0.32.0',
   default_options : [ 'warning_level=1',
                       'c_std=gnu99',
@@ -93,6 +93,9 @@ core_conf.set('DEFAULT_AUDIOSINK', '"autoaudiosink"')
 core_conf.set('AUDIORESAMPLE_FORMAT_' + get_option('audioresample_format').to_upper(), true)
 
 gst_plugins_base_args = ['-DHAVE_CONFIG_H']
+if get_option('default_library') == 'static'
+  gst_plugins_base_args += ['-DGST_STATIC_COMPILATION']
+endif
 
 libm = cc.find_library('m', required : false)
 # X11 checks are for sys/ and tests/

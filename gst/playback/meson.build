@@ -1,9 +1,13 @@
 playback_sources = [
   'gstdecodebin2.c',
+  'gstdecodebin3.c',
   'gsturidecodebin.c',
+  'gsturisourcebin.c',
+  'gstparsebin.c',
   'gstplayback.c',
   'gstplaybackutils.c',
   'gstplaybin2.c',
+  'gstplaybin3.c',
   'gstplaysink.c',
   'gstplay-enum.c',
   'gstsubtitleoverlay.c',
