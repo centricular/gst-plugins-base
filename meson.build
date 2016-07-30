@@ -1,6 +1,6 @@
 project('gst-plugins-base', 'c', 'cpp',
   version : '1.9.1.1',
-  meson_version : '>= 0.32.0',
+  meson_version : '>= 0.33.0',
   default_options : [ 'warning_level=1',
                       'c_std=gnu99',
                       'buildtype=debugoptimized' ])
@@ -156,7 +156,7 @@ vs_module_defs_dir = meson.source_root() + '/win32/common/'
 
 # Used by the *_mkenum.py helper scripts
 perl = find_program('perl')
-glib_mkenums = find_program('glib-mkenums.pl')
+glib_mkenums = find_program('glib-mkenums')
 
 subdir('gst-libs')
 subdir('gst')
