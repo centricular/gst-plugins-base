@@ -158,6 +158,20 @@ vs_module_defs_dir = meson.source_root() + '/win32/common/'
 perl = find_program('perl')
 glib_mkenums = find_program('glib-mkenums')
 
+have_orcc = false
+orcc_args = []
+if get_option('use_orc') != 'no'
+  need_orc = get_option('use_orc') == 'yes'
+  # Used by various libraries/elements that use Orc code
+  orcc = find_program('orcc', required : need_orc)
+  if orcc.found()
+    have_orcc = true
+    orcc_args = [orcc, '--include', 'glib.h']
+  else
+    message('Orc Compiler not found, will use backup C code')
+  endif
+endif
+
 subdir('gst-libs')
 subdir('gst')
 subdir('ext')

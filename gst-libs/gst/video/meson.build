@@ -79,14 +79,6 @@ video_mkenum_headers = [
   'navigation.h',
 ]
 
-configure_file(input : 'video-orc-dist.h',
-  output : 'video-orc.h',
-  configuration : configuration_data())
-
-video_orc_c = configure_file(input : 'video-orc-dist.c',
-  output : 'video-orc.c',
-  configuration : configuration_data())
-
 mkenums = find_program('video_mkenum.py')
 gstvideo_h = custom_target('gstvideoenum_h',
   output : 'video-enumtypes.h',
@@ -101,9 +93,27 @@ gstvideo_c = custom_target('gstvideoenum_c',
   depends : [gstvideo_h],
   command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
+orcsrc = 'video-orc'
+if have_orcc
+  orc_h = custom_target(orcsrc + '.h',
+    input : orcsrc + '.orc',
+    output : orcsrc + '.h',
+    command : orcc_args + ['--header', '-o', '@OUTPUT@', '@INPUT@'])
+  orc_c = custom_target(orcsrc + '.c',
+    input : orcsrc + '.orc',
+    output : orcsrc + '.c',
+    command : orcc_args + ['--implementation', '-o', '@OUTPUT@', '@INPUT@'])
+else
+  orc_h = configure_file(input : orcsrc + '-dist.h',
+    output : orcsrc + '.h',
+    configuration : configuration_data())
+  orc_c = configure_file(input : orcsrc + '-dist.c',
+    output : orcsrc + '.c',
+    configuration : configuration_data())
+endif
 
 gstvideo = library('gstvideo-@0@'.format(api_version),
-  video_sources, gstvideo_h, gstvideo_c, video_orc_c,
+  video_sources, gstvideo_h, gstvideo_c, orc_c, orc_h,
   c_args : gst_plugins_base_args,
   include_directories: [configinc, libsinc],
   version : libversion,

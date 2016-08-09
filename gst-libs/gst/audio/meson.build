@@ -66,18 +66,27 @@ gstaudio_c = custom_target('gstaudioenum_c',
   depends : [gstaudio_h],
   command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
-# FIXME: use orc to generate these if available!
-cdata = configuration_data()
-configure_file(input : 'gstaudiopack-dist.h',
-  output : 'gstaudiopack.h',
-  configuration : cdata)
-
-audio_orc_c = configure_file(input : 'gstaudiopack-dist.c',
-  output : 'gstaudiopack.c',
-  configuration : cdata)
+orcsrc = 'gstaudiopack'
+if have_orcc
+  orc_h = custom_target(orcsrc + '.h',
+    input : orcsrc + '.orc',
+    output : orcsrc + '.h',
+    command : orcc_args + ['--header', '-o', '@OUTPUT@', '@INPUT@'])
+  orc_c = custom_target(orcsrc + '.c',
+    input : orcsrc + '.orc',
+    output : orcsrc + '.c',
+    command : orcc_args + ['--implementation', '-o', '@OUTPUT@', '@INPUT@'])
+else
+  orc_h = configure_file(input : orcsrc + '-dist.h',
+    output : orcsrc + '.h',
+    configuration : configuration_data())
+  orc_c = configure_file(input : orcsrc + '-dist.c',
+    output : orcsrc + '.c',
+    configuration : configuration_data())
+endif
 
 gstaudio = library('gstaudio-@0@'.format(api_version),
-  audio_src, gstaudio_h, gstaudio_c, audio_orc_c,
+  audio_src, gstaudio_h, gstaudio_c, orc_c, orc_h,
   c_args: gst_plugins_base_args,
   include_directories: [configinc, libsinc],
   version : libversion,
