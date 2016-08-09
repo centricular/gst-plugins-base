@@ -51,8 +51,6 @@ gstpbutils_c = custom_target('gstpbutilsenum_c',
   depends : [gstaudio_h, gstvideo_h, gstpbutils_h],
   command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
-
-
 pbutils = library('gstpbutils-@0@'.format(api_version),
   pbutils_sources, gstpbutils_c, gstpbutils_h,
   c_args : gst_plugins_base_args,
@@ -60,11 +58,12 @@ pbutils = library('gstpbutils-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : glib_deps + [gst_dep, gst_base_dep, video_dep, audio_dep, tag_dep],
+  dependencies : [video_dep, audio_dep, tag_dep],
   vs_module_defs: vs_module_defs_dir + 'libgstpbutils.def',
 )
 # TODO: generate gir
 
 pbutils_dep = declare_dependency(link_with : pbutils,
   include_directories : [libsinc],
+  dependencies : [video_dep, audio_dep, tag_dep],
   sources : [gstpbutils_h])

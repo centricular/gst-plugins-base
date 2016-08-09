@@ -29,13 +29,14 @@ gsttag = library('gsttag-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : glib_deps + [gst_base_dep, gst_dep, libm],
+  dependencies : [gst_base_dep, libm],
   vs_module_defs: vs_module_defs_dir + 'libgsttag.def',
 )
 # TODO: generate gir
 
 tag_dep = declare_dependency(link_with: gsttag,
-  include_directories : [libsinc])
+  include_directories : [libsinc],
+  dependencies : [gst_base_dep])
 
 # FIXME: iso-codes stuff
 # little program that reads iso_639.xml and outputs tables for us as fallback
@@ -48,6 +49,6 @@ tag_dep = declare_dependency(link_with: gsttag,
 executable('mklicensestables', 'mklicensestables.c',
   c_args : gst_plugins_base_args,
   include_directories: [configinc],
-  dependencies : glib_deps + [tag_dep, gst_dep],
+  dependencies : [tag_dep, gst_base_dep],
   install : false,
 )

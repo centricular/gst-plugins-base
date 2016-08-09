@@ -21,7 +21,7 @@ gstplayback = library('gstplayback',
   playback_sources,
   c_args : gst_plugins_base_args + ['-DCOLORSPACE="videoconvert"'],
   include_directories: [configinc, libsinc],
-  dependencies : glib_deps + [audio_dep, video_dep, pbutils_dep, tag_dep, gst_dep, gst_base_dep],
+  dependencies : [audio_dep, video_dep, pbutils_dep, tag_dep],
   install : true,
   install_dir : plugins_install_dir,
 )

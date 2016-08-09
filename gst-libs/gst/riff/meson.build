@@ -19,10 +19,11 @@ gstriff = library('gstriff-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : glib_deps + [audio_dep, tag_dep, gst_dep, gst_base_dep],
+  dependencies : [audio_dep, tag_dep],
   vs_module_defs: vs_module_defs_dir + 'libgstriff.def',
 )
 # TODO: generate gir
 
 riff_dep = declare_dependency(link_with: gstriff,
-  include_directories : [libsinc])
+  include_directories : [libsinc],
+  dependencies : [audio_dep, tag_dep])

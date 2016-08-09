@@ -19,4 +19,5 @@ gstsdp = library('gstsdp-@0@'.format(api_version),
 # TODO: generate gir
 
 sdp_dep = declare_dependency(link_with: gstsdp,
-  include_directories : [libsinc])
+  include_directories : [libsinc],
+  dependencies : [rtp_dep, gst_dep, gio_dep])

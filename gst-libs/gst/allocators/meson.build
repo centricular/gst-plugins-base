@@ -12,10 +12,11 @@ gstallocators = library('gstallocators-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : glib_deps + [gst_dep],
+  dependencies : [gst_dep],
   vs_module_defs: vs_module_defs_dir + 'libgstallocators.def',
 )
 # TODO: generate gir
 
 allocators_dep = declare_dependency(link_with: gstallocators,
-  include_directories : [libsinc])
+  include_directories : [libsinc],
+  dependencies : [gst_dep])

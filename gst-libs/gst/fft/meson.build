@@ -31,10 +31,12 @@ gstfft = library('gstfft-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : glib_deps + [gst_dep, libm],
+  dependencies : [gst_dep, libm],
   vs_module_defs: vs_module_defs_dir + 'libgstfft.def',
 )
 # TODO: generate gir
 
 fft_dep = declare_dependency(link_with: gstfft,
-  include_directories : [libsinc])
+  include_directories : [libsinc],
+  dependencies : [gst_dep])
+

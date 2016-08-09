@@ -43,11 +43,12 @@ gst_rtp = library('gstrtp-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : glib_deps + [audio_dep, gst_dep, gst_base_dep],
+  dependencies : [audio_dep, gst_base_dep],
   vs_module_defs: vs_module_defs_dir + 'libgstrtp.def',
 )
 # TODO: generate gir
 
 rtp_dep = declare_dependency(link_with : gst_rtp,
   include_directories : [libsinc],
+  dependencies : [audio_dep, gst_base_dep],
   sources : [gstrtp_enum_h])

@@ -119,11 +119,12 @@ gstvideo = library('gstvideo-@0@'.format(api_version),
   version : libversion,
   soversion : soversion,
   install : true,
-  dependencies : glib_deps + [gst_base_dep, gst_dep, libm],
+  dependencies : [gst_base_dep, libm],
   vs_module_defs: vs_module_defs_dir + 'libgstvideo.def',
 )
 # TODO: generate gir
 
 video_dep = declare_dependency(link_with : gstvideo,
   include_directories : [libsinc],
+  dependencies : [gst_base_dep],
   sources : [gstvideo_h])

@@ -53,4 +53,5 @@ gst_rtsp = library('gstrtsp-@0@'.format(api_version),
 
 rtsp_dep = declare_dependency(link_with : gst_rtsp,
   include_directories : [libsinc],
+  dependencies : [gst_dep, gio_dep],
   sources : [gstrtsp_h])

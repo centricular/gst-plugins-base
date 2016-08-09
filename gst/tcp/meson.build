@@ -17,7 +17,7 @@ gsttcp = library('gsttcp',
   tcp_sources,
   c_args : gst_plugins_base_args,
   include_directories: [configinc, libsinc],
-  dependencies : glib_deps + [gio_dep, gst_base_dep, gst_net_dep, gst_dep],
+  dependencies : [gio_dep, gst_base_dep, gst_net_dep],
   install : true,
   install_dir : plugins_install_dir,
 )
