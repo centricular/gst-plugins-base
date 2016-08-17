@@ -28,13 +28,13 @@ gstrtp_enum_h = custom_target('gstrtp_enum_h',
   input : rtp_headers,
   install : true,
   install_dir : 'include/gstreamer-1.0/gst/rtp/',
-  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 gstrtp_enum_c = custom_target('gstrtp_enum_c',
   output : 'gstrtp-enumtypes.c',
   input : rtp_headers,
   depends : [gstaudio_h, gstrtp_enum_h],
-  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 gst_rtp = library('gstrtp-@0@'.format(api_version),
   rtp_sources, gstrtp_enum_c, gstrtp_enum_h,

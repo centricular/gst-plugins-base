@@ -28,13 +28,13 @@ gstrtsp_h = custom_target('gstrtspenum_h',
   input : rtsp_headers,
   install : true,
   install_dir : 'include/gstreamer-1.0/gst/rtsp/',
-  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 gstrtsp_c = custom_target('gstrtspenum_c',
   output : 'gstrtsp-enumtypes.c',
   input : rtsp_headers,
   depends : [gstrtsp_h],
-  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 winsock2 = cc.find_library('ws2_32', required : false)
 

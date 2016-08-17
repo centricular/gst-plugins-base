@@ -58,13 +58,13 @@ gstaudio_h = custom_target('gstaudioenum_h',
   input : audio_mkenum_headers,
   install : true,
   install_dir : 'include/gstreamer-1.0/gst/audio/',
-  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 gstaudio_c = custom_target('gstaudioenum_c',
   output : 'audio-enumtypes.c',
   input : audio_mkenum_headers,
   depends : [gstaudio_h],
-  command : [mkenums, perl, glib_mkenums, '@OUTPUT@', '@INPUT@'])
+  command : [mkenums, glib_mkenums, '@OUTPUT@', '@INPUT@'])
 
 orcsrc = 'gstaudiopack'
 if have_orcc

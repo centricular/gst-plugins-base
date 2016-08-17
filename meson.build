@@ -155,7 +155,6 @@ gst_controller_dep = dependency('gstreamer-controller-1.0', version : gst_req,
 vs_module_defs_dir = meson.source_root() + '/win32/common/'
 
 # Used by the *_mkenum.py helper scripts
-perl = find_program('perl')
 glib_mkenums = find_program('glib-mkenums')
 
 have_orcc = false
