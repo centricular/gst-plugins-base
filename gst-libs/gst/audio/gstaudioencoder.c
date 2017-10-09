@@ -147,15 +147,17 @@ enum
   PROP_PERFECT_TS,
   PROP_GRANULE,
   PROP_HARD_RESYNC,
-  PROP_TOLERANCE
+  PROP_TOLERANCE,
+  PROP_SEND_SAMPLES_EVENTS
 };
 
-#define DEFAULT_PERFECT_TS   FALSE
-#define DEFAULT_GRANULE      FALSE
-#define DEFAULT_HARD_RESYNC  FALSE
-#define DEFAULT_TOLERANCE    40000000
-#define DEFAULT_HARD_MIN     FALSE
-#define DEFAULT_DRAINABLE    TRUE
+#define DEFAULT_PERFECT_TS          FALSE
+#define DEFAULT_GRANULE             FALSE
+#define DEFAULT_HARD_RESYNC         FALSE
+#define DEFAULT_TOLERANCE           40000000
+#define DEFAULT_HARD_MIN            FALSE
+#define DEFAULT_DRAINABLE           TRUE
+#define DEFAULT_SEND_SAMPLES_EVENTS FALSE
 
 typedef struct _GstAudioEncoderContext
 {
@@ -231,6 +233,7 @@ struct _GstAudioEncoderPrivate
   gboolean granule;
   gboolean hard_min;
   gboolean drainable;
+  gboolean send_samples_events;
 
   /* upstream stream tags (global tags are passed through as-is) */
   GstTagList *upstream_tags;
@@ -357,6 +360,11 @@ gst_audio_encoder_class_init (GstAudioEncoderClass * klass)
       g_param_spec_boolean ("perfect-timestamp", "Perfect Timestamps",
           "Favour perfect timestamps over tracking upstream timestamps",
           DEFAULT_PERFECT_TS, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+  g_object_class_install_property (gobject_class, PROP_SEND_SAMPLES_EVENTS,
+      g_param_spec_boolean ("send-samples-events", "Send samples events",
+          "Send custom events with the number of processed samples for each new buffer",
+          DEFAULT_SEND_SAMPLES_EVENTS,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_GRANULE,
       g_param_spec_boolean ("mark-granule", "Granule Marking",
           "Apply granule semantics to buffer metadata (implies perfect-timestamp)",
@@ -435,6 +443,7 @@ gst_audio_encoder_init (GstAudioEncoder * enc, GstAudioEncoderClass * bclass)
   enc->priv->tolerance = DEFAULT_TOLERANCE;
   enc->priv->hard_min = DEFAULT_HARD_MIN;
   enc->priv->drainable = DEFAULT_DRAINABLE;
+  enc->priv->send_samples_events = DEFAULT_SEND_SAMPLES_EVENTS;
 
   /* init state */
   enc->priv->ctx.min_latency = 0;
@@ -902,6 +911,20 @@ gst_audio_encoder_finish_frame (GstAudioEncoder * enc, GstBuffer * buf,
         }
       }
       priv->ctx.new_headers = FALSE;
+    }
+
+    if (enc->priv->send_samples_events) {
+      GstStructure *s = gst_structure_new_empty ("GstAudioEncoderSamples");
+      GstEvent *event;
+
+      gst_structure_set (s, "processed", G_TYPE_UINT64, priv->samples, NULL);
+      event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM, s);
+
+      if (!gst_pad_push_event (enc->srcpad, event)) {
+        GST_WARNING_OBJECT (enc, "pushing samples event failed");
+        ret = GST_FLOW_ERROR;
+        goto exit;
+      }
     }
 
     size = gst_buffer_get_size (buf);
@@ -2033,6 +2056,9 @@ gst_audio_encoder_set_property (GObject * object, guint prop_id,
     case PROP_TOLERANCE:
       enc->priv->tolerance = g_value_get_int64 (value);
       break;
+    case PROP_SEND_SAMPLES_EVENTS:
+      enc->priv->send_samples_events = g_value_get_boolean (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -2059,6 +2085,9 @@ gst_audio_encoder_get_property (GObject * object, guint prop_id,
       break;
     case PROP_TOLERANCE:
       g_value_set_int64 (value, enc->priv->tolerance);
+      break;
+    case PROP_SEND_SAMPLES_EVENTS:
+      g_value_set_boolean (value, enc->priv->send_samples_events);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
