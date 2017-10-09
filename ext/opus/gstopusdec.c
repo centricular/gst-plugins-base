@@ -105,6 +105,8 @@ static void gst_opus_dec_get_property (GObject * object, guint prop_id,
 static void gst_opus_dec_set_property (GObject * object, guint prop_id,
     const GValue * value, GParamSpec * pspec);
 static GstCaps *gst_opus_dec_getcaps (GstAudioDecoder * dec, GstCaps * filter);
+static gboolean gst_opus_dec_sink_event (GstAudioDecoder * bdec,
+    GstEvent * event);
 
 
 static void
@@ -126,6 +128,7 @@ gst_opus_dec_class_init (GstOpusDecClass * klass)
   adclass->handle_frame = GST_DEBUG_FUNCPTR (gst_opus_dec_handle_frame);
   adclass->set_format = GST_DEBUG_FUNCPTR (gst_opus_dec_set_format);
   adclass->getcaps = GST_DEBUG_FUNCPTR (gst_opus_dec_getcaps);
+  adclass->sink_event = GST_DEBUG_FUNCPTR (gst_opus_dec_sink_event);
 
   gst_element_class_add_static_pad_template (element_class,
       &opus_dec_src_factory);
@@ -458,7 +461,6 @@ opus_dec_chain_parse_data (GstOpusDec * dec, GstBuffer * buffer)
   unsigned int packet_size;
   GstBuffer *buf;
   GstMapInfo map, omap;
-  GstAudioClippingMeta *cmeta = NULL;
 
   if (dec->state == NULL) {
     /* If we did not get any headers, default to 2 channels */
@@ -666,26 +668,24 @@ opus_dec_chain_parse_data (GstOpusDec * dec, GstBuffer * buffer)
   GST_BUFFER_DURATION (outbuf) = samples * GST_SECOND / dec->sample_rate;
   samples = n;
 
-  cmeta = gst_buffer_get_audio_clipping_meta (buf);
-
-  g_assert (!cmeta || cmeta->format == GST_FORMAT_DEFAULT);
-
   /* Skip any samples that need skipping */
-  if (cmeta && cmeta->start) {
-    guint pre_skip = cmeta->start;
+  if (dec->trim_start) {
+    guint pre_skip = dec->trim_start;
     guint scaled_pre_skip = pre_skip * dec->sample_rate / 48000;
     guint skip = scaled_pre_skip > n ? n : scaled_pre_skip;
     guint scaled_skip = skip * 48000 / dec->sample_rate;
 
     gst_buffer_resize (outbuf, skip * 2 * dec->n_channels, -1);
 
+    dec->trim_start = 0;
+
     GST_INFO_OBJECT (dec,
         "Skipping %u samples at the beginning (%u at 48000 Hz)",
         skip, scaled_skip);
   }
 
-  if (cmeta && cmeta->end) {
-    guint post_skip = cmeta->end;
+  if (dec->trim_end) {
+    guint post_skip = dec->trim_end;
     guint scaled_post_skip = post_skip * dec->sample_rate / 48000;
     guint skip = scaled_post_skip > n ? n : scaled_post_skip;
     guint scaled_skip = skip * 48000 / dec->sample_rate;
@@ -698,6 +698,8 @@ opus_dec_chain_parse_data (GstOpusDec * dec, GstBuffer * buffer)
       outsize = 0;
 
     gst_buffer_resize (outbuf, 0, outsize);
+
+    dec->trim_end = 0;
 
     GST_INFO_OBJECT (dec,
         "Skipping %u samples at the end (%u at 48000 Hz)", skip, scaled_skip);
@@ -1005,6 +1007,32 @@ gst_opus_dec_caps_extend_rate_options (GstCaps * caps)
     gst_structure_set_value (s, "rate", &v);
   }
   g_value_unset (&v);
+}
+
+static gboolean
+gst_opus_dec_sink_event (GstAudioDecoder * bdec, GstEvent * event)
+{
+  GstOpusDec *dec;
+
+  dec = GST_OPUS_DEC (bdec);
+
+  if (GST_EVENT_TYPE (event) == GST_EVENT_CUSTOM_DOWNSTREAM) {
+    const GstStructure *s = gst_event_get_structure (event);
+
+    if (gst_structure_has_name (s, "GstOpusEncClipping")) {
+      gst_structure_get (s, "trim-start", G_TYPE_UINT64, &dec->trim_start,
+          "trim-end", G_TYPE_UINT64, &dec->trim_end, NULL);
+      gst_event_unref (event);
+      event = NULL;
+    }
+  }
+
+  if (event)
+    return
+        GST_AUDIO_DECODER_CLASS (gst_opus_dec_parent_class)->sink_event (bdec,
+        event);
+
+  return TRUE;
 }
 
 GstCaps *

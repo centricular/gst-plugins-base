@@ -57,6 +57,10 @@ struct _GstOpusDec {
   guint16 pre_skip;
   gint16 r128_gain;
 
+  /* Clipping */
+  guint64 trim_start;
+  guint64 trim_end;
+
   GstAudioChannelPosition opus_pos[64];
   GstAudioInfo info;
 

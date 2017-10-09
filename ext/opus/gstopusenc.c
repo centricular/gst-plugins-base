@@ -1011,11 +1011,23 @@ gst_opus_enc_encode (GstOpusEnc * enc, GstBuffer * buf)
       frame_samples, (int) bytes);
 
   if (trim_start || trim_end) {
+    GstStructure *s = gst_structure_new_empty ("GstOpusEncClipping");
+    GstEvent *event;
+
+    gst_structure_set (s, "trim-start", G_TYPE_UINT64, trim_start, "trim-end",
+        G_TYPE_UINT64, trim_end, NULL);
+
+    event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM, s);
+
     GST_DEBUG_OBJECT (enc,
-        "Adding trim-start %" G_GUINT64_FORMAT " trim-end %" G_GUINT64_FORMAT,
+        "Sending trim-start %" G_GUINT64_FORMAT " trim-end %" G_GUINT64_FORMAT,
         trim_start, trim_end);
-    gst_buffer_add_audio_clipping_meta (outbuf, GST_FORMAT_DEFAULT, trim_start,
-        trim_end);
+
+    if (!gst_pad_push_event (GST_AUDIO_ENCODER_SRC_PAD (enc), event)) {
+      GST_WARNING_OBJECT (enc, "pushing clipping event failed");
+      ret = GST_FLOW_ERROR;
+      goto done;
+    }
   }
 
   gst_buffer_map (outbuf, &omap, GST_MAP_WRITE);
